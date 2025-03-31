@@ -16,6 +16,8 @@ or pixel levels.
 * [Sen-2 LULC: Land use land cover dataset for deep learning approaches](https://www.sciencedirect.com/science/article/pii/S2352340923007953)
 * [MultiSenGE: multi-temporal and multi-modal land use land cover mapping](https://multisenge.github.io/)
 
+Many more datasets can be found at the [Image Analysis and Data Fusion](https://eod-grss-ieee.com/) website
+
 ### datasets for scene classification
 * [UC Merced Land Use Dataset](http://weegee.vision.ucmerced.edu/datasets/landuse.html)
 * [EuroSAT](https://github.com/phelber/EuroSAT)
