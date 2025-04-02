@@ -13,7 +13,7 @@ tasks such as image classification, semantic segmentation, and object detection 
 
 ## Training datasets
 Several satellite imagery datasets are available that can be used to train a deep learning model for classificattion tasks, at the scene
-or pixel levels. 
+or pixel levels. A dataset is a set of examples where each example contains a satellite or aerial image patch of one or more bands, a text label of its class within a taxonomy, or a mask, a raster file, where each pixel represents the class of the corresponding pixel in the image.   
 
 ### Datasets for pixel classification (semantic segmentation)
 * [Dynamic World](https://dynamicworld.app/)
@@ -28,6 +28,9 @@ or pixel levels.
 * [EuroSAT](https://github.com/phelber/EuroSAT)
 
 Many more datasets can be found at the [Image Analysis and Data Fusion](https://eod-grss-ieee.com/) and [SpaceNet](https://spacenet.ai/) websites.
+
+## Deep learning models for LULC classification
+Several deep learning architectures have been used in computer vision for image classification and semantic segmentatin tasks that can be used in remote sensing applications. 
 
 ## Notebooks
 The notebooks address the basic tasks: classification at the scene and pixel levels.
