@@ -30,7 +30,7 @@ or pixel levels. A dataset is a set of examples where each example contains a sa
 Many more datasets can be found at the [Image Analysis and Data Fusion](https://eod-grss-ieee.com/) and [SpaceNet](https://spacenet.ai/) websites.
 
 ## Deep learning models for LULC classification
-Several deep learning architectures have been used in computer vision for image classification and semantic segmentatin tasks that can be used in remote sensing applications. 
+Several deep learning architectures have been used in computer vision for image classification and semantic segmentation tasks that can be used in remote sensing applications. 
 
 ## Notebooks
 The notebooks address the basic tasks: classification at the scene and pixel levels.
