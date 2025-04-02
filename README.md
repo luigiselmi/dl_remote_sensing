@@ -23,7 +23,7 @@ or pixel levels. A dataset is a set of examples where each example contains a sa
 * [Sen-2 LULC: Land use land cover dataset for deep learning approaches](https://www.sciencedirect.com/science/article/pii/S2352340923007953)
 * [MultiSenGE: multi-temporal and multi-modal land use land cover mapping](https://multisenge.github.io/)
 
-### datasets for scene classification
+### Datasets for scene classification
 * [UC Merced Land Use Dataset](http://weegee.vision.ucmerced.edu/datasets/landuse.html)
 * [EuroSAT](https://github.com/phelber/EuroSAT)
 
