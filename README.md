@@ -2,7 +2,7 @@ Deep Learning for Remote Sensing
 ================================
 This repository contains Jupyter notebooks about remote sensing, in particular land use and land cover and related tasks 
 such as change detection ans satellite image time series. The deep learning models are used to address basic computer vision
-tasks such as image classification, semantic segmentation, and object detection applied to satellite and aerial imagery. The monitoring of land cover is relevant for land management, agriculture, wildfires, land surface roughness and albedo. 
+tasks such as image classification, semantic segmentation, and object detection applied to satellite and aerial imagery. The monitoring of land cover is relevant for land management, agriculture, wildfires, land surface roughness and albedo. Once each pixel of a satellite or aerial image can be mapped to a class from a LULC taxonomy, a set of images can be used to extract statistical information about a region of interest. 
 
 ## Satellite and aerial imagery
 * [Copernicus Data Space Ecosystem](https://dataspace.copernicus.eu/)
