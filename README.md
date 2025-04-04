@@ -29,6 +29,14 @@ or pixel levels. A dataset is a set of examples where each example contains a sa
 
 Many more datasets can be found at the [Image Analysis and Data Fusion](https://eod-grss-ieee.com/) and [SpaceNet](https://spacenet.ai/) websites.
 
+### Land cover data
+Land cover data annotated by experts can be used as target data to train deep learning models
+
+* [CORINE](https://land.copernicus.eu/en/products/corine-land-cover/clc2018), raster and vector land cover data, 100 m. resolution, Europe
+* [ESA World Cover](https://esa-worldcover.org/en), raster data, 10 m. resolution, global
+* [Dynami World](https://dynamicworld.app/), raster data, 10 m. resolution, global
+* [NASA MODIS Land Cover Level 3 Global](https://modis.gsfc.nasa.gov/data/dataprod/mod12.php), raster data, 500 m. resolution, global
+
 ## Deep learning models for LULC classification
 Several deep learning architectures have been used in computer vision for image classification and semantic segmentation tasks that can be used in remote sensing applications. 
 
