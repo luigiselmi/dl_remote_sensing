@@ -22,6 +22,7 @@ or pixel levels. A dataset is a set of examples where each example contains a sa
 | [OpenEarthmap](https://open-earth-map.org/)  | 5000 | 1000 x 1000 | 0.25 - 0.50 m.| GeoTIFF| 8 | Global | U-Net |
 | [SeasoNet](https://zenodo.org/records/5850307)| 1759830 | 120 x 120 | 10 m. | GeoTIFF| 44| Germany| DenseNet, DeepLabV3|
 | [MultiSenGE](https://multisenge.github.io/)| 8157| 256 x 256| 10 m.| GeoTIFF| 5 |Grand-Est region, France| U-Net|
+| [SEN12MS](https://mediatum.ub.tum.de/1474000) |180662 |256 x 256| 10 m. | GeoTIFF| 17| Global |ResNet, DenseNet, FC-DenseNet|
 
 * [Dynamic World](https://dynamicworld.app/)
 * [BigEarthNet: A Large-Scale Sentinel Benchmark Archive](https://bigearth.net/)
