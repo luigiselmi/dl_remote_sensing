@@ -18,8 +18,8 @@ or pixel levels. A dataset is a set of examples where each example contains a sa
 ### Datasets for pixel classification (semantic segmentation)
 | Dataset       | Number of images | Size (pixel)  | Resolution | Format   | Number of categories | Coverage | Model |
 | ------------- | -----------------|---------------|------------|----------|----------------------|----------|-------|
-| BigEarthNet   | 549488           | 120 x 120     | 10 m.      | GeoTIFF  | 19                   | Europe   | ResNet|
-| OpenEarthmap  | 5000             | 1000 x 1000   | 0.25 - 0.50 m.| GeoTIFF| 8 | Global | U-Net |
+| [BigEarthNet](https://bigearth.net/) | 549488           | 120 x 120     | 10 m.      | GeoTIFF  | 19                   | Europe   | ResNet|
+| [OpenEarthmap](https://open-earth-map.org/)  | 5000             | 1000 x 1000   | 0.25 - 0.50 m.| GeoTIFF| 8 | Global | U-Net |
 
 * [Dynamic World](https://dynamicworld.app/)
 * [BigEarthNet: A Large-Scale Sentinel Benchmark Archive](https://bigearth.net/)
