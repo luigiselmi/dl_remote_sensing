@@ -16,12 +16,18 @@ Several satellite imagery datasets are available that can be used to train a dee
 or pixel levels. A dataset is a set of examples where each example contains a satellite or aerial image patch of one or more bands, a text label of its class within a taxonomy, or a mask, a raster file, where each pixel represents the class of the corresponding pixel in the image.   
 
 ### Datasets for pixel classification (semantic segmentation)
+| Dataset       | Number of images | Size (pixel)  | Resolution | Format   | Number of categories | Coverage | Model |
+| ------------- | -----------------|---------------|------------|----------|----------------------|----------|-------|
+| BigEarthNet   | 549488           | 120 x 120     | 10 m.      | GeoTIFF  | 19                   | Europe   | ResNet|
+| OpenEarthmap  | 5000             | 1000 x 1000   | 0.25 - 0.50 m.| GeoTIFF| 8 | Global | U-Net |
+
 * [Dynamic World](https://dynamicworld.app/)
 * [BigEarthNet: A Large-Scale Sentinel Benchmark Archive](https://bigearth.net/)
 * [SEN12MS: A Curated Dataset of Georeferenced Multi-Spectral Sentinel-1/2 Imagery for Deep Learning and Data Fusion](https://arxiv.org/abs/1906.07789)
 * [SeasoNet: A Seasonal Scene Classification, Segmentation and Retrieval Dataset for Satellite Imagery over Germany](https://arxiv.org/abs/2207.09507)
 * [Sen-2 LULC: Land use land cover dataset for deep learning approaches](https://www.sciencedirect.com/science/article/pii/S2352340923007953)
 * [MultiSenGE: multi-temporal and multi-modal land use land cover mapping](https://multisenge.github.io/)
+* [OpenEarthMap](https://open-earth-map.org/)
 
 ### Datasets for scene classification
 * [UC Merced Land Use Dataset](http://weegee.vision.ucmerced.edu/datasets/landuse.html)
