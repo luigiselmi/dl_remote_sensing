@@ -50,20 +50,23 @@ Land cover data annotated by experts can be used as target data to train deep le
 ## Machine learning models for LULC classification and segmentation
 Several deep learning architectures have been used in computer vision for image classification and semantic segmentation tasks that can be used in remote sensing applications.
 ### Classic machine learning models for pixel level classification
+* K-means
 * Random Forests
 * Boosting
 * Conditional Random Fields
 ### Deep learning models for scene level classification
 * Deep Convolutional Neural Networks (DCNN)
 * ResNet
+* Inception
 * DenseNet
 ### Deep learning models for pixel level classification (segmentation)
 * U-Net
 * SegNet
 * Fully Convolutional Networks (FCN)
 * FC-DenseNet
+* DeepLab
 
-## Evaluation metrics
+## Performance metrics
 Several metrics are used to evaluate the performance of a model on a classification or segmentation task
 ### Classification metrics
 * Accuracy (confusion matrix)
