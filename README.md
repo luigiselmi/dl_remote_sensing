@@ -69,6 +69,7 @@ Several deep learning architectures have been used in computer vision for image 
 | Model | Task | Implementation | Number of parameters  | Performance |
 | ----- | -----| -------------- | --------------------- |------------ |
 | ResNet | Image Classification | Keras, PyTorch, Fastai | 10 M. | Accuracy 80%|
+| Inception | Image Classification | Keras, PyTorch, Fastai | 10 M. | Accuracy 85%|
 
 ## Performance metrics
 Several metrics are used to evaluate the performance of a model on a classification or segmentation task
