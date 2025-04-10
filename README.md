@@ -47,8 +47,30 @@ Land cover data annotated by experts can be used as target data to train deep le
 * [Dynamic World](https://dynamicworld.app/), raster data, 10 m. resolution, global
 * [NASA MODIS Land Cover Level 3 Global](https://modis.gsfc.nasa.gov/data/dataprod/mod12.php), raster data, 500 m. resolution, global
 
-## Deep learning models for LULC classification
-Several deep learning architectures have been used in computer vision for image classification and semantic segmentation tasks that can be used in remote sensing applications. 
+## Machine learning models for LULC classification and segmentation
+Several deep learning architectures have been used in computer vision for image classification and semantic segmentation tasks that can be used in remote sensing applications.
+### Classic machine learning models for pixel level classification
+* Random Forests
+* Boosting
+* Conditional Random Fields
+### Deep learning models for scene level classification
+* Deep Convolutional Neural Networks (DCNN)
+* ResNet
+* DenseNet
+### Deep learning models for pixel level classification (segmentation)
+* U-Net
+* SegNet
+* Fully Convolutional Networks (FCN)
+* FC-DenseNet
+
+## Evaluation metrics
+Several metrics are used to evaluate the performance of a model on a classification or segmentation task
+### Classification metrics
+* Accuracy (confusion matrix)
+
+### Segmentation metrics
+* Mean Intersection over Union (mIoU)
+* Boundary F1-measure (BF)
 
 ## Notebooks
 The notebooks address the basic tasks: classification at the scene and pixel levels.
