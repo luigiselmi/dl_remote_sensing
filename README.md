@@ -57,7 +57,7 @@ Several deep learning architectures have been used in computer vision for image 
 ### Deep learning models for scene level classification
 * Deep Convolutional Neural Networks (DCNN)
 * ResNet
-* Inception
+* Inception-v3
 * DenseNet
 ### Deep learning models for pixel level classification (segmentation)
 * U-Net
@@ -68,8 +68,14 @@ Several deep learning architectures have been used in computer vision for image 
 
 | Model | Task | Implementation | Number of parameters  | Performance |
 | ----- | -----| -------------- | --------------------- |------------ |
-| ResNet | Image Classification | Keras, PyTorch, Fastai | 10 M. | Accuracy 80%|
-| Inception | Image Classification | Keras, PyTorch, Fastai | 10 M. | Accuracy 85%|
+| [ResNet](https://arxiv.org/abs/1512.03385) | Image Classification | [Keras](https://keras.io/api/applications/resnet/), PyTorch, Fastai | 10 M. | Accuracy 80%|
+| [Inception-v3](https://arxiv.org/abs/1512.00567v3) | Image Classification | [Keras](https://keras.io/api/applications/inceptionv3/), PyTorch, Fastai | 10 M. | Accuracy 85%|
+| [DenseNet](https://arxiv.org/abs/1608.06993) | Image Classification | [Keras](https://keras.io/api/applications/densenet/), PyTorch, Fastai | 10 M. | Accuracy 85%|
+| [U-Net](https://arxiv.org/abs/1505.04597) | Image Segmentation | [Keras](https://keras.io/examples/vision/oxford_pets_image_segmentation/), PyTorch, Fastai | ? | Accuracy 85%|
+| [SegNet](https://arxiv.org/abs/1511.00561) | Image Segmentation | PyTorch, Fastai | ? | Accuracy 85%|
+| [FCN](https://arxiv.org/abs/1411.4038) | Image Segmentation | [Keras](https://keras.io/examples/vision/fully_convolutional_network/), PyTorch, Fastai | ? | Accuracy 85%|
+| [FC-DenseNet](https://arxiv.org/abs/1611.09326) | Image Segmentation | PyTorch, Fastai | ? | Accuracy 85%|
+| [DeepLab](https://arxiv.org/abs/1412.7062v4) | Image Segmentation | [Keras](https://keras.io/examples/vision/deeplabv3_plus/), PyTorch, Fastai | ? | Accuracy 85%|
 
 ## Performance metrics
 Several metrics are used to evaluate the performance of a model on a classification or segmentation task
