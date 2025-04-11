@@ -75,7 +75,7 @@ Several deep learning architectures have been used in computer vision for image 
 | [SegNet](https://arxiv.org/abs/1511.00561) | Image Segmentation | PyTorch, Fastai | ? | Accuracy 85%|
 | [FCN](https://arxiv.org/abs/1411.4038) | Image Segmentation | [Keras](https://keras.io/examples/vision/fully_convolutional_network/), PyTorch, Fastai | ? | Accuracy 85%|
 | [FC-DenseNet](https://arxiv.org/abs/1611.09326) | Image Segmentation | PyTorch, Fastai | ? | Accuracy 85%|
-| [DeepLab](https://arxiv.org/abs/1412.7062v4) | Image Segmentation | [Keras](https://keras.io/examples/vision/deeplabv3_plus/), PyTorch, Fastai | ? | Accuracy 85%|
+| [DeepLab](https://arxiv.org/abs/1706.05587) | Image Segmentation | [Keras](https://keras.io/examples/vision/deeplabv3_plus/), PyTorch, Fastai | ? | Accuracy 85%|
 
 ## Performance metrics
 Several metrics are used to evaluate the performance of a model on a classification or segmentation task
