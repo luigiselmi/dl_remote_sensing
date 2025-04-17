@@ -95,6 +95,7 @@ The notebooks address the basic tasks: classification at the scene and pixel lev
 
 ### Pixel level classification (semantic segmentation)
 * [Rooftop segmentation](https://github.com/luigiselmi/dl_tensorflow/blob/main/epfl_building_footprints.ipynb)
+* [Xception based rooftop segmentation model](epfl_building_footprints_xception.ipynb)
 
 ## References
 * [Campbell - Introduction to Remote Sensing, 5th Edtion](https://www.amazon.com/Introduction-Remote-Sensing-Fifth-Campbell/dp/160918176X/)
