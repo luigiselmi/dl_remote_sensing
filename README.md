@@ -103,3 +103,4 @@ The notebooks address the basic tasks: classification at the scene and pixel lev
 * [Lillesand - Remote Sensing and Image Interpretation, 7th Edition](https://www.amazon.com/Remote-Sensing-Interpretation-Thomas-Lillesand/dp/111834328X/)
 * [Jensen - Introductory Digital Image Processing - A Remote Sensing Perspective, 4th Edition]()
 * [Richards - Remote Sensing Digital Image Analysis, 6th Edition]()
+* [Copernicus Land Cover Changes](https://sentivista.copernicus.eu/data/land-cover-changes)
