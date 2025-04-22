@@ -11,6 +11,7 @@ tasks such as image classification, semantic segmentation, and object detection 
 * [OpenAerialMap](https://openaerialmap.org/)
 * [Land Information New Zealand](https://data.linz.govt.nz/)
 
+
 ## Training datasets
 Several satellite imagery datasets are available that can be used to train a deep learning model for classificattion tasks, at the scene
 or pixel levels. A dataset is a set of examples where each example contains a satellite or aerial image patch of one or more bands, a text label of its class within a taxonomy, or a mask, a raster file, where each pixel represents the class of the corresponding pixel in the image.   
@@ -43,7 +44,7 @@ Many more datasets can be found at the [Image Analysis and Data Fusion](https://
 Land cover data annotated by experts can be used as target data to train deep learning models
 
 * [CORINE](https://land.copernicus.eu/en/products/corine-land-cover/clc2018), raster and vector land cover data, 100 m. resolution, Europe
-* [ESA World Cover](https://esa-worldcover.org/en), raster data, 10 m. resolution, global
+* [ESA World Cover](https://worldcover2021.esa.int/), raster data, 10 m. resolution, global
 * [Dynamic World](https://dynamicworld.app/), raster data, 10 m. resolution, global
 * [NASA MODIS Land Cover Level 3 Global](https://modis.gsfc.nasa.gov/data/dataprod/mod12.php), raster data, 500 m. resolution, global
 
