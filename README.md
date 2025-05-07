@@ -90,6 +90,8 @@ Several metrics are used to evaluate the performance of a model on a classificat
 
 ## Notebooks
 The notebooks address the basic tasks: classification at the scene and pixel levels.
+### Data preparation
+* [BigEarthNet data preparation](bigearthnetv2_data.ipynb) 
 
 ### Scene classification
 * [Land Use and Land Cover Classification using a ResNet Deep Learning Architecture](https://github.com/luigiselmi/copernicus/blob/main/deeplearning_land_use_land_cover_classification.ipynb), EuroSAT images classification using Fast.ai
