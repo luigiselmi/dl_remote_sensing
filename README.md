@@ -107,3 +107,4 @@ The notebooks address the basic tasks: classification at the scene and pixel lev
 * [Jensen - Introductory Digital Image Processing - A Remote Sensing Perspective, 4th Edition]()
 * [Richards - Remote Sensing Digital Image Analysis, 6th Edition]()
 * [Copernicus Land Cover Changes](https://sentivista.copernicus.eu/data/land-cover-changes)
+* [Herold et al. - Global Terrestrial Observing System: Land Cover](https://lpvs.gsfc.nasa.gov/PDF/TerrestrialECV/T09.pdf)
