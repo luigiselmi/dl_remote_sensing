@@ -16,6 +16,22 @@ folder of the dl_remote_sensing project repository with the command
 
 '''
 ## ---------------------------------------------- Start functions definition -----------------------------------------------
+def read_band_name(band_file):
+    '''
+    Returns the information encoded in the band file name. 
+    '''
+    band_file = str(band_file)
+    band = band_file[-7:-4]
+    patch = band_file[-13:-8]
+    tile = band_file[-20:-14]
+    image = band_file[-25:-21]
+    date = band_file[-47:-39]
+    return image, tile, patch, band, date
+
+def create_png_file_name(image, tile, patch, date):
+    return image + '_' + tile + '_' + patch + '_' + date + '.png'
+
+
 def list_data_files(root_path):
     '''
     This function creates a list of images each containing
@@ -49,7 +65,34 @@ def print_raster_list(images_list):
             print('\n')
         print('\n')
         
+def get_raster_attributes(img_path):
+    width = 0.0
+    height = 0.0
+    d_type = None
+    crs = None
+    transform = None
+    with rasterio.open(img_path) as dataset:
+        d_types = dataset.dtypes[0]
+        print('dtypes: {}'.format(d_types))
+        print('Number of bands: {:d}'.format(dataset.count))
+        width = dataset.width
+        height = dataset.height
+        print('Band width: {:d}, band height: {:d}'.format(width, height))
+        transform = dataset.transform
+        print('Dataset affine transform:\n {}'.format(transform))
+        crs = dataset.crs
+        print('EPSG Coordinates Reference System: {}'.format(crs))
+        bb_left = dataset.bounds.left
+        bb_bottom = dataset.bounds.bottom
+        bb_right = dataset.bounds.right
+        bb_top = dataset.bounds.top
+        print('Bounding box \n left: {:.2f}, \n bottom: {:.2f}, \n right: {:.2f}, \n top: {:.2f}'.format(bb_left, bb_bottom, bb_right, bb_top))                                                   
+    return width, height, d_type, transform
+
 def normalize(data_array):
+    '''
+    This function transforms the bit depth of the TIFF bands from 16 to 8 (0-255) for the PNG files.
+    '''
     return (data_array - np.min(data_array)) * ((255 - 0) / (np.max(data_array) - np.min(data_array))) + 0
 
 def createPNG(source_path_list, target_path):
@@ -100,20 +143,25 @@ def createPNGs(images_list):
     png_patches = []
     for patches_list in images_list:
         for i, bands_list in enumerate(patches_list): 
-            png_file_name = str(bands_list[i])[:-4] + '.png'
-            # print(i, png_file_name)
+            image, tile, patch, band, date = read_band_name(bands_list[i])
+            patch_dir = bands_list[0].parent
+            png_file_name = str(patch_dir) +  '/' + create_png_file_name(image, tile, patch, date)
+            #print(i, png_file_name)
             if (createPNG(bands_list, png_file_name) == 1):
                 print('The PNG file already exists.')
                 png_patches.append(png_file_name)
             else:
                 png_patches.append(png_file_name)
     return png_patches
-
 ## ---------------------------------------------- Stop functions definition -----------------------------------------------
 
-#BIGEARTHNETv2_DIR = sys.argv[1]
-BIGEARTHNETv2_DIR = 'data/BigEarthNet-S2'
+BIGEARTHNETv2_DIR = sys.argv[1]
+#BIGEARTHNETv2_DIR = 'data/BigEarthNet-S2'
 print('Path to BigEarthNetv2 dataset: {:}'.format(BIGEARTHNETv2_DIR))
 
 IMAGES_DATA_DIR = pathlib.Path(BIGEARTHNETv2_DIR + '/images')
 MASKS_DATA_DIR = pathlib.Path(BIGEARTHNETv2_DIR + '/masks')
+
+images_list = list_data_files(IMAGES_DATA_DIR)
+pngs_list = createPNGs(images_list)
+print('Number of RGB PNG files created: {:d}'.format(len(pngs_list)))
