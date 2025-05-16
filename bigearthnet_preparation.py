@@ -19,8 +19,7 @@ MASKS_DATA_DIR = pathlib.Path(BIGEARTHNETv2_DIR + '/masks')
 
 images_list = list_data_files(IMAGES_DATA_DIR, max_images=1)
 
-for image in images_list:
-    print(image)
+print_raster_list(images_list)
     
 print('Number of TIFF images: {:d}'.format(len(images_list)))
 
