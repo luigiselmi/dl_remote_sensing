@@ -20,5 +20,5 @@ MASKS_DATA_DIR = pathlib.Path(BIGEARTHNETv2_DIR + '/masks')
 images_list = list_data_files(IMAGES_DATA_DIR)
 #print('Number of RGB images: {:d}'.format(len(images_list)))
 
-pngs_list = createPNGs(images_list)
-print('Number of RGB PNG files created: {:d}'.format(len(pngs_list)))
+pngs_list = createPNGs(images_list, print_png=True)
+print('Number of RGB PNG files: {:d}'.format(len(pngs_list)))

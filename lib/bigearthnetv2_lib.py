@@ -128,7 +128,7 @@ def createPNG(source_path_list, target_path):
             band_index += 1
     return SUCCESS
 
-def createPNGs(images_list):
+def createPNGs(images_list, print_png=False):
     '''
     This function creates a PNG for each patch of the images
     in the list. The path of the PNG files is added to a list 
@@ -141,11 +141,11 @@ def createPNGs(images_list):
             image, tile, patch, band, date = read_band_name(bands_list[i])
             patch_dir = bands_list[0].parent
             png_file_name = str(patch_dir) +  '/' + create_png_file_name(image, tile, patch, date)
-            #print(i, png_file_name)
             if (createPNG(bands_list, png_file_name) == 1):
                 print('The PNG file already exists.')
                 png_patches.append(png_file_name)
             else:
                 png_patches.append(png_file_name)
+                print(i, png_file_name)
     return png_patches
 ## ---------------------------------------------- End of functions definition -----------------------------------------------
