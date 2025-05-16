@@ -138,7 +138,9 @@ def createPNGs(images_list, print_png=False):
     png_patches = []
     for patches_list in images_list:
         for i, bands_list in enumerate(patches_list): 
-            image, tile, patch, band, date = read_band_name(bands_list[i])
+            bands = bands_list[i]
+            print('Band index: {:d}, Band list: {}'.format(i, bands))
+            image, tile, patch, band, date = read_band_name(bands)
             patch_dir = bands_list[0].parent
             png_file_name = str(patch_dir) +  '/' + create_png_file_name(image, tile, patch, date)
             if (createPNG(bands_list, png_file_name) == 1):
