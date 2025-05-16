@@ -9,13 +9,8 @@ warnings.filterwarnings('ignore')
 '''
 This script implements some functions to create PNG RGB images 
 from TIFF images and masks of the BigEarthNet dataset.
-The script can be executed using the command line from the root
-folder of the dl_remote_sensing project repository with the command
-
->python scripts/bigearthnetv2_data_preparation.py data/BigEarthNet-S2
-
 '''
-## ---------------------------------------------- Start functions definition -----------------------------------------------
+## ---------------------------------------------- Start of functions definition -----------------------------------------------
 def read_band_name(band_file):
     '''
     Returns the information encoded in the band file name. 
@@ -153,15 +148,4 @@ def createPNGs(images_list):
             else:
                 png_patches.append(png_file_name)
     return png_patches
-## ---------------------------------------------- Stop functions definition -----------------------------------------------
-
-#BIGEARTHNETv2_DIR = sys.argv[1]
-BIGEARTHNETv2_DIR = 'data/BigEarthNet-S2'
-print('Path to BigEarthNetv2 dataset: {:}'.format(BIGEARTHNETv2_DIR))
-
-IMAGES_DATA_DIR = pathlib.Path(BIGEARTHNETv2_DIR + '/images')
-MASKS_DATA_DIR = pathlib.Path(BIGEARTHNETv2_DIR + '/masks')
-
-images_list = list_data_files(IMAGES_DATA_DIR)
-pngs_list = createPNGs(images_list)
-print('Number of RGB PNG files created: {:d}'.format(len(pngs_list)))
+## ---------------------------------------------- End of functions definition -----------------------------------------------
