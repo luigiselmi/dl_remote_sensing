@@ -17,7 +17,7 @@ print('Path to BigEarthNetv2 dataset: {:}'.format(BIGEARTHNETv2_DIR))
 IMAGES_DATA_DIR = pathlib.Path(BIGEARTHNETv2_DIR + '/images')
 MASKS_DATA_DIR = pathlib.Path(BIGEARTHNETv2_DIR + '/masks')
 
-images_list = list_data_files(IMAGES_DATA_DIR)
+images_list = list_data_files(IMAGES_DATA_DIR, max_images=1)
 #print('Number of RGB images: {:d}'.format(len(images_list)))
 
 pngs_list = createPNGs(images_list, print_png=True)

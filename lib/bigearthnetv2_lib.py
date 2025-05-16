@@ -27,14 +27,14 @@ def create_png_file_name(image, tile, patch, date):
     return image + '_' + tile + '_' + patch + '_' + date + '.png'
 
 
-def list_data_files(root_path):
+def list_data_files(root_path, max_images):
     '''
     This function creates a list of images each containing
     lists of patches with three RGB bands each or a mask.
     '''
     images_list = []
     images_paths = [pathlib.Path(x) for x in root_path.iterdir() if x.is_dir()]
-    for image_path in images_paths:
+    for image_path in images_paths[:max_images]:
         # print(image_path.name)
         patches_list = []
         for patches_path in image_path.iterdir():
@@ -146,6 +146,7 @@ def createPNGs(images_list, print_png=False):
                 png_patches.append(png_file_name)
             else:
                 png_patches.append(png_file_name)
-                print(i, png_file_name)
+                if(print_png):
+                    print(i, png_file_name)
     return png_patches
 ## ---------------------------------------------- End of functions definition -----------------------------------------------
