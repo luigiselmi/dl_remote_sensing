@@ -17,7 +17,7 @@ print('Path to BigEarthNetv2 dataset: {:}'.format(BIGEARTHNETv2_DIR))
 IMAGES_DATA_DIR = pathlib.Path(BIGEARTHNETv2_DIR + '/images')
 MASKS_DATA_DIR = pathlib.Path(BIGEARTHNETv2_DIR + '/masks')
 
-tiles_list = list_data_files(IMAGES_DATA_DIR, 0, 1)
+tiles_list = list_data_files(IMAGES_DATA_DIR, 0, 10)
 
 num_tiles = len(tiles_list)
 

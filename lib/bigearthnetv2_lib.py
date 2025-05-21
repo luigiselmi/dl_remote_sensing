@@ -138,11 +138,12 @@ def createPNGs(tiles_list):
     '''
     png_patches = []
     for patches_list in tiles_list:
-        for i, bands_list in enumerate(patches_list): 
-            tile, patch, band, date = read_band_name(bands_list[i].name)
+        for bands_list in patches_list: 
+            band_name = bands_list[0].name
+            #print('Band name: {}'.format(band_name))
+            tile, patch, band, date = read_band_name(band_name)
             patch_dir = bands_list[0].parent
             png_file_name = str(patch_dir) +  '/' + create_png_file_name(tile, patch, date)
-            #print(i, png_file_name)
             if (createPNG(bands_list, png_file_name) == 1):
                 print('The PNG file already exists.')
                 png_patches.append(png_file_name)
