@@ -11,49 +11,50 @@ This script implements some functions to create PNG RGB images
 from TIFF images and masks of the BigEarthNet dataset.
 '''
 ## ---------------------------------------------- Start of functions definition -----------------------------------------------
-def read_band_name(band_file):
+def read_band_name(band_name):
     '''
-    Returns the information encoded in the band file name. 
+    Returns the information encoded in the band file name:
+    tile, patch, band, and date of acquisition.
     '''
-    band_file = str(band_file)
-    band = band_file[-7:-4]
-    patch = band_file[-13:-8]
-    tile = band_file[-20:-14]
-    image = band_file[-25:-21]
-    date = band_file[-47:-39]
-    return image, tile, patch, band, date
-
-def create_png_file_name(image, tile, patch, date):
-    return image + '_' + tile + '_' + patch + '_' + date + '.png'
+    band = band_name[-7:-4]
+    patch = band_name[-13:-8]
+    tile = band_name[-25:-14]
+    date = band_name[-47:-39]
+    return tile, patch, band, date
 
 
-def list_data_files(root_path, max_images):
+def create_png_file_name(tile, patch, date):
+    return tile + '_' + patch + '_' + date + '.png'
+
+def list_data_files(root_path, start_tile_index, max_num_tiles):
     '''
-    This function creates a list of images each containing
+    This function creates a list of tiles each containing
     lists of patches with three RGB bands each or a mask.
+    The 2nd argument is the index of the first tile to be included. 
+    The 3rd argument is the number of tiles to be returned. 
     '''
-    images_list = []
-    images_paths = [pathlib.Path(x) for x in root_path.iterdir() if x.is_dir()]
-    for image_path in images_paths[:max_images]:
-        # print(image_path.name)
+    tiles_list = []
+    tiles_paths = [pathlib.Path(x) for x in root_path.iterdir() if x.is_dir()]
+    for tile_path in tiles_paths[start_tile_index:max_num_tiles]:
+        # print(tile_path.name)
         patches_list = []
-        for patches_path in image_path.iterdir():
+        for patches_path in tile_path.iterdir():
             bands_list = []
             for band_path in patches_path.iterdir():
                 band_type = band_path.name[-7:]
                 if (band_type == 'B02.tif' or band_type == 'B03.tif' or band_type == 'B04.tif' or band_type == 'map.tif'):
                     bands_list.append(band_path)
             patches_list.append(bands_list)
-        images_list.append(patches_list)
-    return images_list
+        tiles_list.append(patches_list)
+    return tiles_list
 
-def print_raster_list(images_list): 
+def print_raster_list(tiles_list): 
     '''
     Prints the content of the nested folders
     within the list passed as argument.
-    images[patches[bands[]]]
+    tiles[patches[bands[]]]
     '''
-    for patches_list in images_list:
+    for patches_list in tiles_list:
         for bands_list in patches_list:
             for band in reversed(bands_list):
                 print(band.name)
@@ -128,27 +129,24 @@ def createPNG(source_path_list, target_path):
             band_index += 1
     return SUCCESS
 
-def createPNGs(images_list, print_png=False):
+def createPNGs(tiles_list):
     '''
-    This function creates a PNG for each patch of the images
+    This function creates a PNG for each patch of the tiles
     in the list. The path of the PNG files is added to a list 
     that will be returned. In case a PNG file already exist it 
     only adds its path to the list.
     '''
     png_patches = []
-    for patches_list in images_list:
+    for patches_list in tiles_list:
         for i, bands_list in enumerate(patches_list): 
-            bands = bands_list[i]
-            print('Band index: {:d}, Band list: {}'.format(i, bands))
-            image, tile, patch, band, date = read_band_name(bands)
+            tile, patch, band, date = read_band_name(bands_list[i].name)
             patch_dir = bands_list[0].parent
-            png_file_name = str(patch_dir) +  '/' + create_png_file_name(image, tile, patch, date)
+            png_file_name = str(patch_dir) +  '/' + create_png_file_name(tile, patch, date)
+            #print(i, png_file_name)
             if (createPNG(bands_list, png_file_name) == 1):
                 print('The PNG file already exists.')
                 png_patches.append(png_file_name)
             else:
                 png_patches.append(png_file_name)
-                if(print_png):
-                    print(i, png_file_name)
     return png_patches
 ## ---------------------------------------------- End of functions definition -----------------------------------------------
