@@ -150,4 +150,5 @@ def createPNGs(tiles_list):
             else:
                 png_patches.append(png_file_name)
     return png_patches
+
 ## ---------------------------------------------- End of functions definition -----------------------------------------------
