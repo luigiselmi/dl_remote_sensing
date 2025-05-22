@@ -30,3 +30,10 @@ zip_pngs(pngs_list, target_zip_file)
 
 unzip_folder = 'zip/'
 unzip_pngs(target_zip_file, unzip_folder)
+
+tiles_mask_list = list_data_files(MASKS_DATA_DIR, 0, 5)
+num_masks = len(tiles_list)
+print('Number of masks: {:d}'.format(num_masks))
+
+target_zip_masks = 'data/bigearthnet_pngs.zip'
+zip_pngs(pngs_list, target_zip_file)
