@@ -3,6 +3,7 @@ import os
 import sys
 import pathlib
 import rasterio
+from zipfile import ZipFile
 import warnings
 warnings.filterwarnings('ignore')
 
@@ -151,4 +152,16 @@ def createPNGs(tiles_list):
                 png_patches.append(png_file_name)
     return png_patches
 
+def zip_pngs(pngs_list, target_zip_file):
+    '''
+    This function can be used to compress all the PNG files
+    created using the createPNGs function into a zip file
+    '''
+    with ZipFile(target_zip_file, 'w') as zipObj:
+        for png in pngs_list:
+            zipObj.write(png)
+
+def unzip_pngs(source_zip_file, target_folder):
+    with ZipFile(source_zip_file, 'r') as zipObj:
+        zipObj.extractall(path=f'{target_folder}')
 ## ---------------------------------------------- End of functions definition -----------------------------------------------
