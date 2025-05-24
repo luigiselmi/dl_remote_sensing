@@ -36,6 +36,15 @@ def read_band_name(band_name):
     date = band_name[-47:-39]
     return tile, patch, band, date
 
+def read_mask_name(mask_name):
+    '''
+    Returns the information encoded in a TIFF mask file name:
+    tile, patch, band, and date of acquisition.
+    '''
+    patch = mask_name[-23:-18]
+    tile = mask_name[-35:-24]
+    date = mask_name[-57:-49]
+    return tile, patch, date
 
 def create_png_file_name(tile, patch, date):
     return tile + '_' + patch + '_' + date + '.png'
