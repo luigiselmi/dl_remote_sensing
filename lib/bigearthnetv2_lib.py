@@ -231,6 +231,31 @@ def createPNGs(tiles_list):
             else:
                 png_patches.append(png_file_name)
     return png_patches
+
+def createMaskPNGs(tiles_list):
+    '''
+    This function creates a PNG mask for each patch of the tiles
+    in the list. The path of the PNG files is added to a list 
+    that will be returned. In case a PNG file already exist it 
+    only adds its path to the list.
+    '''
+    png_patches = []
+    for patches_list in tiles_list:
+        for patch_path in patches_list: 
+            #print('Patch path: {}'.format(patch_path))
+            patch_dir = patch_path.parent
+            patch_name = patch_path.name
+            #print('Patch name: {}'.format(patch_name))
+            tile, patch, date = read_mask_name(patch_name)
+            #print('Tile: {}, Patch: {}, Date: {}'.format(tile, patch, date))
+            png_file_name = str(patch_dir) +  '/' + create_mask_png_file_name(tile, patch, date)
+            #print('Mask file name: {}'.format(png_file_name))
+            if (createMaskPNG(patch_path, png_file_name) == 1):
+                print('The PNG file already exists.')
+                png_patches.append(png_file_name)
+            else:
+                png_patches.append(png_file_name)
+    return png_patches
     
 #---------- Compression ----------------------------------------------------
 
