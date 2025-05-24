@@ -17,7 +17,12 @@ print('Path to BigEarthNetv2 dataset: {:}'.format(BIGEARTHNETv2_DIR))
 IMAGES_DATA_DIR = pathlib.Path(BIGEARTHNETv2_DIR + '/images')
 MASKS_DATA_DIR = pathlib.Path(BIGEARTHNETv2_DIR + '/masks')
 
-tiles_list = list_image_files(IMAGES_DATA_DIR, 0, 5)
+start_tile_index = 0 
+end_tile_index = 5
+
+tiles_list = list_image_files(IMAGES_DATA_DIR, start_tile_index, end_tile_index)
+
+tiles_mask_list = list_mask_files(MASKS_DATA_DIR, start_tile_index, end_tile_index)
 
 num_tiles = len(tiles_list)
 print('Number of tiles: {:d}'.format(num_tiles))
@@ -25,8 +30,14 @@ print('Number of tiles: {:d}'.format(num_tiles))
 pngs_list = createPNGs(tiles_list)
 print('Number of RGB PNG files: {:d}'.format(len(pngs_list)))
 
-target_zip_file = 'data/bigearthnet_pngs.zip'
-zip_pngs(pngs_list, target_zip_file)
+masks_png_list = createMaskPNGs(tiles_mask_list)
+print('Number of mask PNG files: {:d}'.format(len(masks_png_list)))
+
+rgb_zip_file = 'data/bigearthnet_pngs.zip'
+zip_pngs(pngs_list, rgb_zip_file)
+
+masks_zip_file = 'data/bigearthnet_mask_pngs.zip'
+zip_pngs(masks_pngs_list, masks_zip_file)
 
 #unzip_folder = 'zip/'
 #unzip_pngs(target_zip_file, unzip_folder)
@@ -35,5 +46,3 @@ tiles_mask_list = list_data_files(MASKS_DATA_DIR, 0, 5)
 num_masks = len(tiles_list)
 print('Number of masks: {:d}'.format(num_masks))
 
-target_zip_masks = 'data/bigearthnet_pngs.zip'
-zip_pngs(pngs_list, target_zip_file)
