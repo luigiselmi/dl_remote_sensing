@@ -3,6 +3,13 @@ import os
 import sys
 import pathlib
 import rasterio
+import PIL
+import PIL.Image
+from skimage import io
+from skimage import exposure
+from skimage.io import imread
+import matplotlib
+import matplotlib.pyplot as plt
 from zipfile import ZipFile
 import warnings
 warnings.filterwarnings('ignore')
@@ -12,9 +19,15 @@ This script implements some functions to create PNG RGB images
 from TIFF images and masks of the BigEarthNet dataset.
 '''
 ## ---------------------------------------------- Start of functions definition -----------------------------------------------
+# The script is divided into four sections: 
+# 1. Data collection
+# 2. TIFF to PNG transformation
+# 3. Compression
+# 4. Visualization
+#------------------------- Data collection --------------------------------------------------
 def read_band_name(band_name):
     '''
-    Returns the information encoded in the band file name:
+    Returns the information encoded in a TIFF image band file name:
     tile, patch, band, and date of acquisition.
     '''
     band = band_name[-7:-4]
@@ -27,7 +40,10 @@ def read_band_name(band_name):
 def create_png_file_name(tile, patch, date):
     return tile + '_' + patch + '_' + date + '.png'
 
-def list_data_files(root_path, start_tile_index, max_num_tiles):
+def create_mask_png_file_name(tile, patch, date):
+    return tile + '_' + patch + '_' + date + '_mask.png'
+
+def list_image_files(root_path, start_tile_index, end_tile_index):
     '''
     This function creates a list of tiles each containing
     lists of patches with three RGB bands each or a mask.
@@ -36,7 +52,7 @@ def list_data_files(root_path, start_tile_index, max_num_tiles):
     '''
     tiles_list = []
     tiles_paths = [pathlib.Path(x) for x in root_path.iterdir() if x.is_dir()]
-    for tile_path in tiles_paths[start_tile_index:max_num_tiles]:
+    for tile_path in tiles_paths[start_tile_index:end_tile_index]:
         # print(tile_path.name)
         patches_list = []
         for patches_path in tile_path.iterdir():
@@ -49,7 +65,28 @@ def list_data_files(root_path, start_tile_index, max_num_tiles):
         tiles_list.append(patches_list)
     return tiles_list
 
-def print_raster_list(tiles_list): 
+def list_mask_files(root_path, start_tile_index, end_tile_index):
+    '''
+    This function creates a list of tiles each containing
+    lists of patches with a mask.
+    The 2nd argument is the index of the first tile to be included. 
+    The 3rd argument is the number of tiles to be returned. 
+    '''
+    tiles_list = []
+    tiles_paths = [pathlib.Path(x) for x in root_path.iterdir() if x.is_dir()]
+    for tile_path in tiles_paths[start_tile_index:end_tile_index]:
+        # print(tile_path.name)
+        patches_list = []
+        for patches_path in tile_path.iterdir():
+            for band_path in patches_path.iterdir():
+                # print(band_path)
+                band_type = band_path.name[-7:]
+                if (band_type == 'map.tif'):
+                    patches_list.append(band_path)
+        tiles_list.append(patches_list)
+    return tiles_list
+    
+def print_images_list(tiles_list): 
     '''
     Prints the content of the nested folders
     within the list passed as argument.
@@ -62,6 +99,17 @@ def print_raster_list(tiles_list):
             print('\n')
         print('\n')
         
+def print_masks_list(tiles_list): 
+    '''
+    Prints the content of the nested folders
+    within the list passed as argument.
+    tiles[patches[mask]]
+    '''
+    for patches_list in tiles_list:
+        for mask in patches_list:
+            print(mask.name)
+        print('\n')
+
 def get_raster_attributes(img_path):
     width = 0.0
     height = 0.0
@@ -85,6 +133,8 @@ def get_raster_attributes(img_path):
         bb_top = dataset.bounds.top
         print('Bounding box \n left: {:.2f}, \n bottom: {:.2f}, \n right: {:.2f}, \n top: {:.2f}'.format(bb_left, bb_bottom, bb_right, bb_top))                                                   
     return width, height, d_type, transform
+
+#---------------------------- TIFF to PNG transformation ----------------------------------
 
 def normalize(data_array):
     '''
@@ -130,6 +180,36 @@ def createPNG(source_path_list, target_path):
             band_index += 1
     return SUCCESS
 
+def createMaskPNG(source_path, target_path):
+    '''
+    This function creates a one band PNG file from a GeoTIFF mask file. 
+    If the target file already exists it doesn't create a new one and 
+    will return 1, otherwise it will create a new raster and will return 0. 
+    '''
+    SUCCESS = 0
+    FAILURE = 1
+    if (os.path.isfile(target_path)):
+        return FAILURE 
+        
+    dataset = rasterio.open(source_path)
+    width = dataset.width
+    height = dataset.height
+    count = 1
+
+    band = dataset.read(1)
+        
+    with rasterio.open(target_path,
+                    mode='w',
+                    driver='PNG',
+                    height=height,
+                    width=width,
+                    count=count,
+                    dtype='uint8') as target_dataset:
+        band_index = 1
+        target_dataset.write(band, band_index)
+
+    return SUCCESS
+
 def createPNGs(tiles_list):
     '''
     This function creates a PNG for each patch of the tiles
@@ -151,6 +231,8 @@ def createPNGs(tiles_list):
             else:
                 png_patches.append(png_file_name)
     return png_patches
+    
+#---------- Compression ----------------------------------------------------
 
 def zip_pngs(pngs_list, target_zip_file):
     '''
@@ -164,4 +246,20 @@ def zip_pngs(pngs_list, target_zip_file):
 def unzip_pngs(source_zip_file, target_folder):
     with ZipFile(source_zip_file, 'r') as zipObj:
         zipObj.extractall(path=f'{target_folder}')
+
+## ---------------------- Visualization ---------------------------------------
+
+def plot_examples(tiles_list, masks_list):
+    fig_rows = len(masks_list)
+    fig, axs = plt.subplots(nrows=fig_rows, ncols=2, figsize=(5, 3), layout='constrained')
+    for row in range(0, fig_rows):
+        img = imread(tiles_list[row])
+        msk = imread(masks_list[row])
+        img_equalized = exposure.equalize_hist(img)
+        msk_equalized = exposure.equalize_hist(msk)
+        axs[row, 0].set_axis_off()
+        axs[row, 1].set_axis_off()
+        axs[row, 0].imshow(img_equalized)
+        axs[row, 1].imshow(msk_equalized)
+        
 ## ---------------------------------------------- End of functions definition -----------------------------------------------
