@@ -37,12 +37,8 @@ rgb_zip_file = 'data/bigearthnet_pngs.zip'
 zip_pngs(pngs_list, rgb_zip_file)
 
 masks_zip_file = 'data/bigearthnet_mask_pngs.zip'
-zip_pngs(masks_pngs_list, masks_zip_file)
+zip_pngs(masks_png_list, masks_zip_file)
 
 #unzip_folder = 'zip/'
 #unzip_pngs(target_zip_file, unzip_folder)
-
-tiles_mask_list = list_data_files(MASKS_DATA_DIR, 0, 5)
-num_masks = len(tiles_list)
-print('Number of masks: {:d}'.format(num_masks))
 
