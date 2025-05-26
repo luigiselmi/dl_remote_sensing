@@ -10,6 +10,7 @@ from skimage import exposure
 from skimage.io import imread
 import matplotlib
 import matplotlib.pyplot as plt
+import zipfile
 from zipfile import ZipFile
 import warnings
 warnings.filterwarnings('ignore')
@@ -89,7 +90,7 @@ def list_mask_files(root_path, start_tile_index, end_tile_index):
         for patch_path in tile_path.iterdir():
             for mask_path in patch_path.iterdir():
                 file_type = mask_path.name[-7:]
-                print('File type: {}'.format(file_type))
+                # print('File type: {}'.format(file_type))
                 if (file_type == 'map.tif'):
                     patches_list.append(mask_path)
         tiles_list.append(patches_list)
@@ -279,8 +280,9 @@ def zip_pngs(pngs_list, target_zip_file):
     This function can be used to compress all the PNG files
     created using the createPNGs function into a zip file
     '''
-    with ZipFile(target_zip_file, 'w') as zipObj:
+    with ZipFile(target_zip_file, 'w', zipfile.ZIP_DEFLATED) as zipObj:
         for png in pngs_list:
+            print(png)
             zipObj.write(png)
 
 def unzip_pngs(source_zip_file, target_folder):
