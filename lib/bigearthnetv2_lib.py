@@ -282,7 +282,8 @@ def zip_pngs(pngs_list, target_zip_file):
     '''
     with ZipFile(target_zip_file, 'w', zipfile.ZIP_DEFLATED) as zipObj:
         for png in pngs_list:
-            zipObj.write(png)
+            png_path = pathlib.Path(png)
+            zipObj.write(png, arcname=png_path.name)
 
 def unzip_pngs(source_zip_file, target_folder):
     with ZipFile(source_zip_file, 'r') as zipObj:
