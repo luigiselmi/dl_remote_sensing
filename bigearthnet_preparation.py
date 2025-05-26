@@ -21,11 +21,16 @@ start_tile_index = 0
 end_tile_index = 5
 
 tiles_list = list_image_files(IMAGES_DATA_DIR, start_tile_index, end_tile_index)
+num_rgb_bands = print_images_list(tiles_list)
 
 tiles_mask_list = list_mask_files(MASKS_DATA_DIR, start_tile_index, end_tile_index)
+num_masks = print_masks_list(tiles_mask_list)
 
 num_tiles = len(tiles_list)
 print('Number of tiles: {:d}'.format(num_tiles))
+print('Number of RGB bands. {:d}'.format(num_rgb_bands))
+print('Number of masks. {:d}'.format(num_masks))
+
 
 pngs_list = createPNGs(tiles_list)
 print('Number of RGB PNG files: {:d}'.format(len(pngs_list)))

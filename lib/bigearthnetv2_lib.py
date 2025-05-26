@@ -94,19 +94,22 @@ def list_mask_files(root_path, start_tile_index, end_tile_index):
                     patches_list.append(band_path)
         tiles_list.append(patches_list)
     return tiles_list
-    
+
 def print_images_list(tiles_list): 
     '''
     Prints the content of the nested folders
     within the list passed as argument.
     tiles[patches[bands[]]]
     '''
+    count = 0
     for patches_list in tiles_list:
         for bands_list in patches_list:
             for band in reversed(bands_list):
                 print(band.name)
+                count += 1
             print('\n')
         print('\n')
+    return count
         
 def print_masks_list(tiles_list): 
     '''
@@ -114,10 +117,13 @@ def print_masks_list(tiles_list):
     within the list passed as argument.
     tiles[patches[mask]]
     '''
+    count = 0
     for patches_list in tiles_list:
         for mask in patches_list:
             print(mask.name)
+            count += 1
         print('\n')
+    return count
 
 def get_raster_attributes(img_path):
     width = 0.0
