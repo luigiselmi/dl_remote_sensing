@@ -89,7 +89,7 @@ def list_mask_files(root_path, start_tile_index, end_tile_index):
         for patch_path in tile_path.iterdir():
             for mask_path in patch_path.iterdir():
                 file_type = mask_path.name[-7:]
-                # print('File type: {}'.format(file_type))
+                print('File type: {}'.format(file_type))
                 if (file_type == 'map.tif'):
                     patches_list.append(mask_path)
         tiles_list.append(patches_list)
