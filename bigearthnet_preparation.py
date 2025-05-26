@@ -27,16 +27,10 @@ tiles_mask_list = list_mask_files(MASKS_DATA_DIR, start_tile_index, end_tile_ind
 num_masks = print_masks_list(tiles_mask_list)
 
 num_tiles = len(tiles_list)
-print('Number of tiles: {:d}'.format(num_tiles))
-print('Number of RGB bands. {:d}'.format(num_rgb_bands))
-print('Number of masks. {:d}'.format(num_masks))
-
 
 pngs_list = createPNGs(tiles_list)
-print('Number of RGB PNG files: {:d}'.format(len(pngs_list)))
 
 masks_png_list = createMaskPNGs(tiles_mask_list)
-print('Number of mask PNG files: {:d}'.format(len(masks_png_list)))
 
 rgb_zip_file = 'data/bigearthnet_pngs.zip'
 zip_pngs(pngs_list, rgb_zip_file)
@@ -47,3 +41,8 @@ zip_pngs(masks_png_list, masks_zip_file)
 #unzip_folder = 'zip/'
 #unzip_pngs(target_zip_file, unzip_folder)
 
+print('Number of tiles: {:d}'.format(num_tiles))
+print('Number of RGB bands. {:d}'.format(num_rgb_bands))
+print('Number of masks. {:d}'.format(num_masks))
+print('Number of RGB PNG files: {:d}'.format(len(pngs_list)))
+print('Number of mask PNG files: {:d}'.format(len(masks_png_list)))
