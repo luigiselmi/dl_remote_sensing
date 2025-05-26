@@ -282,7 +282,6 @@ def zip_pngs(pngs_list, target_zip_file):
     '''
     with ZipFile(target_zip_file, 'w', zipfile.ZIP_DEFLATED) as zipObj:
         for png in pngs_list:
-            print(png)
             zipObj.write(png)
 
 def unzip_pngs(source_zip_file, target_folder):
