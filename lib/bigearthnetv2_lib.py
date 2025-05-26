@@ -86,12 +86,12 @@ def list_mask_files(root_path, start_tile_index, end_tile_index):
     for tile_path in tiles_paths[start_tile_index:end_tile_index]:
         # print(tile_path.name)
         patches_list = []
-        for patches_path in tile_path.iterdir():
-            for band_path in patches_path.iterdir():
-                # print(band_path)
-                band_type = band_path.name[-7:]
-                if (band_type == 'map.tif'):
-                    patches_list.append(band_path)
+        for patch_path in tile_path.iterdir():
+            for mask_path in patch_path.iterdir():
+                file_type = mask_path.name[-7:]
+                # print('File type: {}'.format(file_type))
+                if (file_type == 'map.tif'):
+                    patches_list.append(mask_path)
         tiles_list.append(patches_list)
     return tiles_list
 
