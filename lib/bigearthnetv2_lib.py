@@ -3,11 +3,13 @@ import os
 import sys
 import pathlib
 import rasterio
+from rasterio.plot import show_hist
 import PIL
 import PIL.Image
 from skimage import io
 from skimage import exposure
 from skimage.io import imread
+import tifffile as tiff
 import matplotlib
 import matplotlib.pyplot as plt
 import zipfile
