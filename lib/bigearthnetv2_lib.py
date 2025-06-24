@@ -4,6 +4,7 @@ import sys
 import pathlib
 import rasterio
 from rasterio.plot import show_hist
+from rasterio.plot import show
 import PIL
 import PIL.Image
 from skimage import io
@@ -71,7 +72,7 @@ def list_image_files(root_path, start_tile_index, end_tile_index):
             bands_list = []
             for band_path in patches_path.iterdir():
                 band_type = band_path.name[-7:]
-                if (band_type == 'B02.tif' or band_type == 'B03.tif' or band_type == 'B04.tif' or band_type == 'map.tif'):
+                if (band_type == 'B02.tif' or band_type == 'B03.tif' or band_type == 'B04.tif'):
                     bands_list.append(band_path)
             patches_list.append(bands_list)
         tiles_list.append(patches_list)
@@ -79,22 +80,25 @@ def list_image_files(root_path, start_tile_index, end_tile_index):
 
 def list_mask_files(root_path, start_tile_index, end_tile_index):
     '''
-    This function creates a list of tiles each containing
-    lists of patches with a mask.
+    This function, like the one for bands, creates a list of tiles 
+    each containing lists of patches with a mask.
     The 2nd argument is the index of the first tile to be included. 
     The 3rd argument is the number of tiles to be returned. 
     '''
     tiles_list = []
     tiles_paths = [pathlib.Path(x) for x in root_path.iterdir() if x.is_dir()]
+    print('Number of tiles: ', len(tiles_paths))
     for tile_path in tiles_paths[start_tile_index:end_tile_index]:
-        # print(tile_path.name)
+        print('Tile:', tile_path.name)
         patches_list = []
         for patch_path in tile_path.iterdir():
+            mask_list = []
             for mask_path in patch_path.iterdir():
                 file_type = mask_path.name[-7:]
-                # print('File type: {}'.format(file_type))
+                print('File type: {}'.format(file_type))
                 if (file_type == 'map.tif'):
-                    patches_list.append(mask_path)
+                    mask_list.append(mask_path)
+            patches_list.append(mask_list)
         tiles_list.append(patches_list)
     return tiles_list
 
@@ -122,9 +126,11 @@ def print_masks_list(tiles_list):
     '''
     count = 0
     for patches_list in tiles_list:
-        for mask in patches_list:
-            print(mask.name)
-            count += 1
+        for mask_list in patches_list:
+            for mask in mask_list:
+                print(mask.name)
+                count += 1
+            print('\n')
         print('\n')
     return count
 
