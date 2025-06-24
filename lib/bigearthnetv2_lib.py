@@ -1,12 +1,13 @@
 import numpy as np
 import os
 import sys
+from osgeo import gdal, osr, ogr
 import pathlib
 import rasterio
 from rasterio.plot import show_hist
 from rasterio.plot import show
 import PIL
-import PIL.Image
+from PIL import Image, ImageDraw
 from skimage import io
 from skimage import exposure
 from skimage.io import imread
@@ -87,15 +88,15 @@ def list_mask_files(root_path, start_tile_index, end_tile_index):
     '''
     tiles_list = []
     tiles_paths = [pathlib.Path(x) for x in root_path.iterdir() if x.is_dir()]
-    print('Number of tiles: ', len(tiles_paths))
+    #print('Number of tiles: ', len(tiles_paths))
     for tile_path in tiles_paths[start_tile_index:end_tile_index]:
-        print('Tile:', tile_path.name)
+        #print('Tile:', tile_path.name)
         patches_list = []
         for patch_path in tile_path.iterdir():
             mask_list = []
             for mask_path in patch_path.iterdir():
                 file_type = mask_path.name[-7:]
-                print('File type: {}'.format(file_type))
+                #print('File type: {}'.format(file_type))
                 if (file_type == 'map.tif'):
                     mask_list.append(mask_path)
             patches_list.append(mask_list)
@@ -197,7 +198,7 @@ def createPNG(source_path_list, target_path):
                     height=height,
                     width=width,
                     count=count,
-                    dtype='uint8') as target_dataset:
+                    dtype='uint16') as target_dataset:
         band_index = 1
         for band in band_list:
             target_dataset.write(band, band_index)
@@ -228,7 +229,7 @@ def createMaskPNG(source_path, target_path):
                     height=height,
                     width=width,
                     count=count,
-                    dtype='uint8') as target_dataset:
+                    dtype='uint16') as target_dataset:
         band_index = 1
         target_dataset.write(band, band_index)
 
@@ -267,8 +268,8 @@ def createMaskPNGs(tiles_list):
     for patches_list in tiles_list:
         for patch_path in patches_list: 
             #print('Patch path: {}'.format(patch_path))
-            patch_dir = patch_path.parent
-            patch_name = patch_path.name
+            patch_dir = patch_path[0].parent
+            patch_name = patch_path[0].name
             #print('Patch name: {}'.format(patch_name))
             tile, patch, date = read_mask_name(patch_name)
             #print('Tile: {}, Patch: {}, Date: {}'.format(tile, patch, date))
