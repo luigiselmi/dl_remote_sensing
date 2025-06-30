@@ -14,8 +14,8 @@ BIGEARTHNETv2_DIR = sys.argv[1]
 #BIGEARTHNETv2_DIR = 'data/BigEarthNet-S2'
 print('Path to BigEarthNetv2 dataset: {:}'.format(BIGEARTHNETv2_DIR))
 
-IMAGES_DATA_DIR = pathlib.Path(BIGEARTHNETv2_DIR + '/images')
-MASKS_DATA_DIR = pathlib.Path(BIGEARTHNETv2_DIR + '/masks')
+IMAGES_DATA_DIR = pathlib.Path(BIGEARTHNETv2_DIR + '/BigEarthnet-S2')
+MASKS_DATA_DIR = pathlib.Path(BIGEARTHNETv2_DIR + '/Reference_Maps')
 
 start_tile_index = 0 
 end_tile_index = 5
