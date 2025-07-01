@@ -311,6 +311,7 @@ def norm_image(image_array):
     min_image = image_array.min()
     image_array_norm = (image_array - min_image) / (max_image - min_image + 1)
     return image_array_norm
+    
 ## ---------------------- Visualization ---------------------------------------
 
 def plot_examples(images_list, masks_list):
