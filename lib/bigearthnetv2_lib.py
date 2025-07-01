@@ -216,7 +216,7 @@ def createMaskPNG(source_path, target_path):
     will return 1, otherwise it will create a new raster and will return 0. 
     We use dtype uint16 because mask pixel values can be > 255.
     '''
-    print('createMaskPNG source_path=', source_path)
+    #print('createMaskPNG source_path=', source_path)
     SUCCESS = 0
     FAILURE = 1
     if (os.path.isfile(target_path)):
@@ -271,16 +271,16 @@ def createMaskPNGs(tiles_list):
     png_patches = []
     for patches_list in tiles_list:
         for patch_path in patches_list: 
-            print('Patch path: {}'.format(patch_path))
+            #print('Patch path: {}'.format(patch_path))
             patch_dir = patch_path[0].parent
             patch_name = patch_path[0].name
-            print('Patch name: {}'.format(patch_name))
+            #print('Patch name: {}'.format(patch_name))
             tile, patch, date = read_mask_name(patch_name)
-            print('Tile: {}, Patch: {}, Date: {}'.format(tile, patch, date))
+            #print('Tile: {}, Patch: {}, Date: {}'.format(tile, patch, date))
             png_file_name = str(patch_dir) +  '/' + create_mask_png_file_name(tile, patch, date)
-            print('Mask file name: {}'.format(png_file_name))
+            #print('Mask file name: {}'.format(png_file_name))
             tiff_path_name = str(patch_path[0])
-            print('Tiff patch path name', tiff_path_name)
+            #print('Tiff patch path name', tiff_path_name)
             if (createMaskPNG(tiff_path_name, png_file_name) == 1):
                 print('The mask PNG file already exists.')
                 png_patches.append(png_file_name)
