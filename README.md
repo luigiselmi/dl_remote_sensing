@@ -92,6 +92,7 @@ Several metrics are used to evaluate the performance of a model on a classificat
 The notebooks address the basic tasks: classification at the scene and pixel levels.
 
 * [BigEarthNet data preparation](bigearthnetv2_data_preparation.ipynb)
+* [PNG files visual check](png_files_visual_check.ipynb)
 * [BigEarthNet model](bigearthnet_model.ipynb)
 
 ### Scene classification

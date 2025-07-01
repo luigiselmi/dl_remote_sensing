@@ -287,6 +287,14 @@ def createMaskPNGs(tiles_list):
             else:
                 png_patches.append(png_file_name)
     return png_patches
+
+def delete_files(file_list):
+    '''
+    Removes all the files in the list
+    '''
+    for file in file_list:
+        file_path = pathlib.Path(file)
+        file_path.unlink()  
     
 #----------4) Compression ----------------------------------------------------
 
