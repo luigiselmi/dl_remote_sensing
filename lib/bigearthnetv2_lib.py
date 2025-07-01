@@ -214,14 +214,15 @@ def createMaskPNG(source_path, target_path):
     This function creates a one band PNG file from a GeoTIFF mask file. 
     If the target file already exists it doesn't create a new one and 
     will return 1, otherwise it will create a new raster and will return 0. 
+    We use dtype uint16 because mask pixel values can be > 255.
     '''
-    #print('createMaskPNG source_path=', source_path[0])
+    print('createMaskPNG source_path=', source_path)
     SUCCESS = 0
     FAILURE = 1
     if (os.path.isfile(target_path)):
         return FAILURE 
         
-    with rasterio.open(source_path[0]) as source_dataset:
+    with rasterio.open(source_path) as source_dataset:
         width = source_dataset.width
         height = source_dataset.height
         band = source_dataset.read(1)
@@ -270,15 +271,17 @@ def createMaskPNGs(tiles_list):
     png_patches = []
     for patches_list in tiles_list:
         for patch_path in patches_list: 
-            #print('Patch path: {}'.format(patch_path))
+            print('Patch path: {}'.format(patch_path))
             patch_dir = patch_path[0].parent
             patch_name = patch_path[0].name
-            #print('Patch name: {}'.format(patch_name))
+            print('Patch name: {}'.format(patch_name))
             tile, patch, date = read_mask_name(patch_name)
-            #print('Tile: {}, Patch: {}, Date: {}'.format(tile, patch, date))
+            print('Tile: {}, Patch: {}, Date: {}'.format(tile, patch, date))
             png_file_name = str(patch_dir) +  '/' + create_mask_png_file_name(tile, patch, date)
-            #print('Mask file name: {}'.format(png_file_name))
-            if (createMaskPNG(patch_path, png_file_name) == 1):
+            print('Mask file name: {}'.format(png_file_name))
+            tiff_path_name = str(patch_path[0])
+            print('Tiff patch path name', tiff_path_name)
+            if (createMaskPNG(tiff_path_name, png_file_name) == 1):
                 print('The mask PNG file already exists.')
                 png_patches.append(png_file_name)
             else:
@@ -302,6 +305,18 @@ def unzip_pngs(source_zip_file, target_folder):
         zipObj.extractall(path=f'{target_folder}')
 
 ## ---------------------- 5) Normalization ------------------------------------
+def get_image_array(img_path):
+    '''
+    This function returns a NumPy array
+    of the image. For one band it returns 
+    a 2D array with shape (height, width).
+    For a RGB image with three bands it 
+    returns a 3D array with shape (channels, height, width) 
+    '''
+    with gdal.Open(img_path) as image_ds:
+        image_array = image_ds.ReadAsArray()
+    return image_array
+    
 def norm_image(image_array):
     '''
     This function takes a NumPy array as input, computes min and max
