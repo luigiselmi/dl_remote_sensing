@@ -28,8 +28,9 @@ from TIFF images and masks of the BigEarthNet dataset.
 # 1. Data collection
 # 2. TIFF to PNG transformation
 # 3. Compression
-# 4. Visualization
-#------------------------- Data collection --------------------------------------------------
+# 4. Normalization
+# 5. Visualization
+#------------------------- 1) Data collection --------------------------------------------------
 def read_band_name(band_name):
     '''
     Returns the information encoded in a TIFF image band file name:
@@ -159,7 +160,7 @@ def get_raster_attributes(img_path):
         print('Bounding box \n left: {:.2f}, \n bottom: {:.2f}, \n right: {:.2f}, \n top: {:.2f}'.format(bb_left, bb_bottom, bb_right, bb_top))                                                   
     return width, height, d_type, transform
 
-#---------------------------- TIFF to PNG transformation ----------------------------------
+#----------------------------2) TIFF to PNG transformation ----------------------------------
 
 def normalize(data_array):
     '''
@@ -171,7 +172,8 @@ def createPNG(source_path_list, target_path):
     '''
     This function creates a multiband PNG file from a list of GeoTIFF files 
     containing one band each. For an RGB file the source list shall contain three bands
-    in the RGB order. For Sentinel-2 it is B04, B03, B02. If the target file already exists
+    in the RGB order. For Sentinel-2 it is B04, B03, B02. The bin depth of each band is
+    reduced from 16 bits to 8 bits. If the target file already exists
     it doesn't create a new one and will return 1, otherwise it will create a new raster
     and will return 0 
     '''
@@ -181,11 +183,12 @@ def createPNG(source_path_list, target_path):
         return FAILURE 
         
     band_list = []
-    dataset = rasterio.open(source_path_list[0])
-    width = dataset.width
-    height = dataset.height
-    count = len(source_path_list)
+    with rasterio.open(source_path_list[0]) as source_dataset:
+        width = source_dataset.width
+        height = source_dataset.height
+        count = len(source_path_list)
 
+    #print('createPNG source_path_list', source_path_list)
     for raster_path in source_path_list:
         dataset = rasterio.open(raster_path)
         band = normalize(dataset.read(1))
@@ -198,11 +201,12 @@ def createPNG(source_path_list, target_path):
                     height=height,
                     width=width,
                     count=count,
-                    dtype='uint16') as target_dataset:
+                    dtype='uint8') as target_dataset:
         band_index = 1
         for band in band_list:
             target_dataset.write(band, band_index)
             band_index += 1
+    
     return SUCCESS
 
 def createMaskPNG(source_path, target_path):
@@ -211,24 +215,23 @@ def createMaskPNG(source_path, target_path):
     If the target file already exists it doesn't create a new one and 
     will return 1, otherwise it will create a new raster and will return 0. 
     '''
+    #print('createMaskPNG source_path=', source_path[0])
     SUCCESS = 0
     FAILURE = 1
     if (os.path.isfile(target_path)):
         return FAILURE 
         
-    dataset = rasterio.open(source_path)
-    width = dataset.width
-    height = dataset.height
-    count = 1
-
-    band = dataset.read(1)
+    with rasterio.open(source_path[0]) as source_dataset:
+        width = source_dataset.width
+        height = source_dataset.height
+        band = source_dataset.read(1)
         
     with rasterio.open(target_path,
                     mode='w',
                     driver='PNG',
                     height=height,
                     width=width,
-                    count=count,
+                    count=1,
                     dtype='uint16') as target_dataset:
         band_index = 1
         target_dataset.write(band, band_index)
@@ -251,7 +254,7 @@ def createPNGs(tiles_list):
             patch_dir = bands_list[0].parent
             png_file_name = str(patch_dir) +  '/' + create_png_file_name(tile, patch, date)
             if (createPNG(bands_list, png_file_name) == 1):
-                print('The PNG file already exists.')
+                print('The image PNG file already exists.')
                 png_patches.append(png_file_name)
             else:
                 png_patches.append(png_file_name)
@@ -276,13 +279,13 @@ def createMaskPNGs(tiles_list):
             png_file_name = str(patch_dir) +  '/' + create_mask_png_file_name(tile, patch, date)
             #print('Mask file name: {}'.format(png_file_name))
             if (createMaskPNG(patch_path, png_file_name) == 1):
-                print('The PNG file already exists.')
+                print('The mask PNG file already exists.')
                 png_patches.append(png_file_name)
             else:
                 png_patches.append(png_file_name)
     return png_patches
     
-#---------- Compression ----------------------------------------------------
+#----------4) Compression ----------------------------------------------------
 
 def zip_pngs(pngs_list, target_zip_file):
     '''
@@ -298,19 +301,27 @@ def unzip_pngs(source_zip_file, target_folder):
     with ZipFile(source_zip_file, 'r') as zipObj:
         zipObj.extractall(path=f'{target_folder}')
 
+## ---------------------- 5) Normalization ------------------------------------
+def norm_image(image_array):
+    '''
+    This function takes a NumPy array as input, computes min and max
+    and returns a normalized array with values in [0, 1]
+    '''
+    max_image = image_array.max()
+    min_image = image_array.min()
+    image_array_norm = (image_array - min_image) / (max_image - min_image + 1)
+    return image_array_norm
 ## ---------------------- Visualization ---------------------------------------
 
-def plot_examples(tiles_list, masks_list):
+def plot_examples(images_list, masks_list):
     fig_rows = len(masks_list)
     fig, axs = plt.subplots(nrows=fig_rows, ncols=2, figsize=(5, 3), layout='constrained')
     for row in range(0, fig_rows):
-        img = imread(tiles_list[row])
-        msk = imread(masks_list[row])
-        img_equalized = exposure.equalize_hist(img)
-        msk_equalized = exposure.equalize_hist(msk)
+        img = norm_image(np.array(Image.open(images_list[row])))
+        msk = norm_image(np.array(Image.open(masks_list[row])))
         axs[row, 0].set_axis_off()
         axs[row, 1].set_axis_off()
-        axs[row, 0].imshow(img_equalized)
-        axs[row, 1].imshow(msk_equalized)
+        axs[row, 0].imshow(img)
+        axs[row, 1].imshow(msk)
         
 ## ---------------------------------------------- End of functions definition -----------------------------------------------
