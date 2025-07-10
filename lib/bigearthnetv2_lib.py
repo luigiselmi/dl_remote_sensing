@@ -14,6 +14,9 @@ from skimage.io import imread
 import tifffile as tiff
 import matplotlib
 import matplotlib.pyplot as plt
+import matplotlib.colors as mcol
+from matplotlib import cm, ticker
+from matplotlib.colors import ListedColormap
 import zipfile
 from zipfile import ZipFile
 import warnings
@@ -295,6 +298,21 @@ def delete_files(file_list):
     for file in file_list:
         file_path = pathlib.Path(file)
         file_path.unlink()  
+
+def count_unique_occurrence(array):
+    '''
+    Computes the number of elements in an array that 
+    have one of the unique values. Returns the list
+    of unique values and the number of occurrences.
+    This function can be replaced by the NumPy function
+    np.unique(array, return_counts=True)
+    '''
+    occurrences = []
+    unique_values = np.unique(array)
+    for u in unique_values:
+        occurrence = np.count_nonzero(array == u)
+        occurrences.append(occurrence)
+    return unique_values, occurrences
     
 #----------4) Compression ----------------------------------------------------
 
@@ -347,5 +365,80 @@ def plot_examples(images_list, masks_list):
         axs[row, 1].set_axis_off()
         axs[row, 0].imshow(img)
         axs[row, 1].imshow(msk)
-        
+
+def corine_color_map():
+    '''
+    This function returns the 43 Corine2018 RGB
+    color codes in hexadecimal format used for 
+    the visualization of the land cover. 
+    '''
+
+    corine2018_rgb_color_codes = [
+        '230-000-077', '255-000-000', '204-077-242', '204-000-000', '230-204-204', '230-204-230', '166-000-204', '166-077-000', '255-077-255', '255-166-255',
+        '255-230-255', '255-255-168', '255-255-000', '230-230-000', '230-128-000', '242-166-077', '230-166-000', '230-230-077', '255-230-166', '255-230-077',
+        '230-204-077', '242-204-166', '128-255-000', '000-166-000', '077-255-000', '204-242-077', '166-255-128', '166-230-077', '166-242-000', '230-230-230',
+        '204-204-204', '204-255-204', '000-000-000', '166-230-204', '166-166-255', '077-077-255', '204-204-255', '230-230-255', '166-166-230', '000-204-242',
+        '128-242-230', '000-255-166', '166-255-230', '230-242-255']
+
+    hex_color_map = []
+    for color in corine2018_rgb_color_codes:
+        r = int(color[:3])
+        g = int(color[4:7])
+        b = int(color[8:11])
+        hex = "#{:02x}{:02x}{:02x}".format(r,g,b)
+        hex_color_map.append(hex)
+    
+    return hex_color_map
+
+def corine2018_labels():
+    '''
+    This function simply returns the list of the 44 
+    Corine2018 land cover labels.
+    '''
+    corine2018_level3_labels = [
+        'Continuous urban fabric',
+        'Discontinuous urban fabric',
+        'Industrial or commercial units',
+        'Road and rail networks and associated land',
+        'Port areas',
+        'Airports',
+        'Mineral extraction sites',
+        'Dump sites',
+        'Construction sites',
+        'Green urban areas',
+        'Sport and leisure facilities',
+        'Non-irrigated arable land',
+        'Permanently irrigated land',
+        'Rice fields',
+        'Vineyards',
+        'Fruit trees and berry plantations',
+        'Olive groves',
+        'Pastures',
+        'Annual crops associated with permanent crops',
+        'Complex cultivation patterns',
+        'Land principally occupied by agriculture, with significant areas of natural vegetation',
+        'Agro-forestry areas',
+        'Broad-leaved forest',
+        'Coniferous forest',
+        'Mixed forest',
+        'Natural grasslands',
+        'Moors and heathland',
+        'Sclerophyllous vegetation',
+        'Transitional woodland-shrub',
+        'Beaches, dunes, sands',
+        'Bare rocks',
+        'Sparsely vegetated areas',
+        'Burnt areas',
+        'Glaciers and perpetual snow',
+        'Inland marshes',
+        'Peat bogs',
+        'Salt marshes',
+        'Salines',
+        'Intertidal flats',
+        'Water courses',
+        'Water bodies',
+        'Coastal lagoons',
+        'Estuaries',
+        'Sea and ocean']
+    return corine2018_level3_labels
 ## ---------------------------------------------- End of functions definition -----------------------------------------------
