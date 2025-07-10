@@ -3,6 +3,7 @@ import os
 import sys
 from osgeo import gdal, osr, ogr
 import pathlib
+import time
 import rasterio
 from rasterio.plot import show_hist
 from rasterio.plot import show
@@ -33,6 +34,7 @@ from TIFF images and masks of the BigEarthNet dataset.
 # 3. Compression
 # 4. Normalization
 # 5. Visualization
+# 6. Statistics
 #------------------------- 1) Data collection --------------------------------------------------
 def read_band_name(band_name):
     '''
@@ -314,7 +316,7 @@ def count_unique_occurrence(array):
         occurrences.append(occurrence)
     return unique_values, occurrences
     
-#----------4) Compression ----------------------------------------------------
+#-------------------------------------3) Compression ----------------------------------------------------
 
 def zip_pngs(pngs_list, target_zip_file):
     '''
@@ -330,7 +332,7 @@ def unzip_pngs(source_zip_file, target_folder):
     with ZipFile(source_zip_file, 'r') as zipObj:
         zipObj.extractall(path=f'{target_folder}')
 
-## ---------------------- 5) Normalization ------------------------------------
+## ------------------------------------------ 4) Normalization ------------------------------------
 def get_image_array(img_path):
     '''
     This function returns a NumPy array
@@ -353,7 +355,7 @@ def norm_image(image_array):
     image_array_norm = (image_array - min_image) / (max_image - min_image + 1)
     return image_array_norm
     
-## ---------------------- Visualization ---------------------------------------
+## --------------------------------------------- 5) Visualization ---------------------------------------
 
 def plot_examples(images_list, masks_list):
     fig_rows = len(masks_list)
@@ -441,4 +443,67 @@ def corine2018_labels():
         'Estuaries',
         'Sea and ocean']
     return corine2018_level3_labels
+
+## ---------------------------------------------- 6) Statistics
+def corine2018_class_bucket(clc_code):
+    '''
+    This function return the index of a bucket from 1 to 44
+    to be used in place of a Corine2018 class code
+    '''
+    corine2018_class_code = [
+        111, 112, 121, 122, 123, 124, 131, 132, 133, 141, 142,
+        211, 212, 213, 221, 222, 223, 231, 241, 242, 243, 244,
+        311, 312, 313, 321, 322, 323, 324, 331, 332, 333, 334, 335,
+        411, 412, 421, 422, 423,
+        511, 512, 521, 522, 523]
+    
+    clc_code_index = corine2018_class_code.index(clc_code)
+    corine2018_class_buckets = np.arange(1,45)
+    bucket = corine2018_class_buckets[clc_code_index]
+    return bucket
+
+def collect_statistics(root_path, start_tile_index, end_tile_index, print_msg=False):
+    '''
+    This function collects the unique values in each BigEarthNetv2 mask file
+    and put them in a bucket list from 1 to 44 in order to count how many masks
+    contain each one of the Corine2018 classes. The function return an array of
+    the 44 buckets with the number of masks for each class.
+    '''
+    num_mask_files = 0
+    corine2018_buckets = np.zeros(44)
+    tiles_paths = [pathlib.Path(x) for x in root_path.iterdir() if x.is_dir()]
+    if (print_msg):
+        print('Number of tiles: ', len(tiles_paths))
+    for tile_path in tiles_paths[start_tile_index:end_tile_index]:
+        if (print_msg):
+            print('Tile:', tile_path.name)
+        patches_paths = [pathlib.Path(x) for x in tile_path.iterdir() if x.is_dir()]
+        if (print_msg):
+            print('Number of patches per tile: ', len(patches_paths))
+        for patch_path in patches_paths:
+            if (print_msg):
+                print('Patch: ', patch_path.name)
+            for mask_path in patch_path.iterdir():
+                file_type = mask_path.name[-7:]
+                if (file_type == 'map.tif'):
+                    mask_png = rasterio.open(mask_path)
+                    mask_array = mask_png.read(1)
+                    unique_values = np.unique(mask_array)
+                    num_mask_files += 1
+                    if (print_msg):
+                        print('Unique values: ', unique_values)
+                    for u in unique_values:
+                        bucket = corine2018_class_bucket(u)
+                        bucket_value = corine2018_buckets[bucket - 1]
+                        corine2018_buckets[bucket - 1] = bucket_value + 1
+    return corine2018_buckets
+
+def save_statistics(bucket_array, file_path):
+    '''
+    Saves the bucket array in a txt file.
+    '''
+    data = bucket_array.tolist()
+    with open(file_path, 'w') as f:
+        for element in data:
+            f.write(f'{element}\n')
 ## ---------------------------------------------- End of functions definition -----------------------------------------------
