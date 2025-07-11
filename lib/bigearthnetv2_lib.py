@@ -445,10 +445,31 @@ def corine2018_labels():
     return corine2018_level3_labels
 
 ## ---------------------------------------------- 6) Statistics
+def corine2018_class_code(index):
+    '''
+    This function returns the Corine2018 Land Cover classification 
+    code at the 3rd level given its index (from 1 to 44).
+    '''
+    SUCCESS = 0
+    FAILURE = 1
+    if (index < 1 or index > 44):
+        print('The index must be a number between 1 and 44')
+        return FAILURE
+    
+    corine2018_class_code = [
+        111, 112, 121, 122, 123, 124, 131, 132, 133, 141, 142,
+        211, 212, 213, 221, 222, 223, 231, 241, 242, 243, 244,
+        311, 312, 313, 321, 322, 323, 324, 331, 332, 333, 334, 335,
+        411, 412, 421, 422, 423,
+        511, 512, 521, 522, 523]
+    
+    return corine2018_class_code[index - 1]
+    
 def corine2018_class_bucket(clc_code):
     '''
     This function return the index of a bucket from 1 to 44
-    to be used in place of a Corine2018 class code
+    to be used in place of a Corine2018 class code. This function
+    works as the inverse of corine2018_class_code().
     '''
     corine2018_class_code = [
         111, 112, 121, 122, 123, 124, 131, 132, 133, 141, 142,
