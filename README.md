@@ -89,12 +89,24 @@ Several metrics are used to evaluate the performance of a model on a classificat
 * Boundary F1-measure (BF)
 
 ## Notebooks
-The notebooks address the basic tasks: classification at the scene and pixel levels.
+The notebooks are used in the development phase. They are tested on a small subset of the BigEarthNet dataset. 
 
 * [BigEarthNet data preparation](bigearthnetv2_data_preparation.ipynb)
+* [BigEarthNet dataset statistics](benv2_statistics.ipynb)
 * [PNG files visual check](png_files_visual_check.ipynb)
 * [BigEarthNet model](bigearthnet_model.ipynb)
 
+## Scripts
+The scripts are based on the notebooks and are used to perform a task using the complete BigEarthNet dataset. They use
+among the Python packages a library where many of the functions developed in the notebooks have been moved.
+
+* [BigEarthNet data preparation](bigearthnet_preparation.py)
+* [BigEarthNet dataset statistics](bigearthnetv2_statistics.py)
+  
+## Library
+The library is a script where functions developed in the notebooks have been moved. 
+* [BigEarthNetLib](lib/bigearthnetv2_lib.py)
+  
 ### Scene classification
 * [Land Use and Land Cover Classification using a ResNet Deep Learning Architecture](https://github.com/luigiselmi/copernicus/blob/main/deeplearning_land_use_land_cover_classification.ipynb), EuroSAT images classification using Fast.ai
 * [EuroSAT images classification](https://github.com/luigiselmi/machine_learning_notes/blob/main/pml3/eurosat_images_classification.ipynb), EuroSAT images classification using PyTorch
