@@ -360,19 +360,22 @@ def norm_image(image_array):
 def plot_examples(images_list, masks_list):
     fig_rows = len(masks_list)
     fig, axs = plt.subplots(nrows=fig_rows, ncols=2, figsize=(5, 3), layout='constrained')
+    corine2018_color_map = ListedColormap(corine_color_map())
     for row in range(0, fig_rows):
-        img = norm_image(np.array(Image.open(images_list[row])))
-        msk = norm_image(np.array(Image.open(masks_list[row])))
+        img = np.array(Image.open(images_list[row]))
+        msk = np.array(Image.open(masks_list[row]))
         axs[row, 0].set_axis_off()
         axs[row, 1].set_axis_off()
-        axs[row, 0].imshow(img)
-        axs[row, 1].imshow(msk)
+        axs[row, 0].imshow(img, cmap=corine2018_color_map)
+        axs[row, 1].imshow(msk, cmap=corine2018_color_map)
 
 def corine_color_map():
     '''
-    This function returns the 43 Corine2018 RGB
+    This function returns the 44 Corine2018 RGB
     color codes in hexadecimal format used for 
-    the visualization of the land cover. 
+    the visualization of the land cover, plus an
+    additional 255-255-255 (white) code to annotate
+    pixels that are not classified.
     '''
 
     corine2018_rgb_color_codes = [
@@ -380,7 +383,7 @@ def corine_color_map():
         '255-230-255', '255-255-168', '255-255-000', '230-230-000', '230-128-000', '242-166-077', '230-166-000', '230-230-077', '255-230-166', '255-230-077',
         '230-204-077', '242-204-166', '128-255-000', '000-166-000', '077-255-000', '204-242-077', '166-255-128', '166-230-077', '166-242-000', '230-230-230',
         '204-204-204', '204-255-204', '000-000-000', '166-230-204', '166-166-255', '077-077-255', '204-204-255', '230-230-255', '166-166-230', '000-204-242',
-        '128-242-230', '000-255-166', '166-255-230', '230-242-255']
+        '128-242-230', '000-255-166', '166-255-230', '230-242-255', '255-255-255']
 
     hex_color_map = []
     for color in corine2018_rgb_color_codes:
@@ -395,7 +398,8 @@ def corine_color_map():
 def corine2018_labels():
     '''
     This function simply returns the list of the 44 
-    Corine2018 land cover labels.
+    Corine2018 land cover labels plus one additional class,
+    'Unclassified', used for pixels that were not classified.
     '''
     corine2018_level3_labels = [
         'Continuous urban fabric',
@@ -441,14 +445,17 @@ def corine2018_labels():
         'Water bodies',
         'Coastal lagoons',
         'Estuaries',
-        'Sea and ocean']
+        'Sea and ocean',
+        'Unclassified']
     return corine2018_level3_labels
 
 ## ---------------------------------------------- 6) Statistics
 def corine2018_class_code(index):
     '''
     This function returns the Corine2018 Land Cover classification 
-    code at the 3rd level given its index (from 1 to 45).
+    code at the 3rd level given its index (from 1 to 45). The last code
+    999 does not belong to Corine2018 and is used for pixels that were
+    not classified.
     '''
     SUCCESS = 0
     FAILURE = 1
@@ -467,9 +474,11 @@ def corine2018_class_code(index):
     
 def corine2018_class_bucket(clc_code):
     '''
-    This function return the index of a bucket from 1 to 44
-    to be used in place of a Corine2018 class code. This function
-    works as the inverse of corine2018_class_code().
+    This function return the index of a bucket from 1 to 45
+    to be used in place of a Corine2018 class code. The last code
+    999 does not belong to Corine2018 and is used for pixels that 
+    were not classified. This function works as the inverse of 
+    corine2018_class_code().
     '''
     corine2018_class_code = [
         111, 112, 121, 122, 123, 124, 131, 132, 133, 141, 142,
