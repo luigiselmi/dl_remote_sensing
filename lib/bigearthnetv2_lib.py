@@ -449,6 +449,19 @@ def corine2018_labels():
         'Unclassified']
     return corine2018_level3_labels
 
+def corine_mask(mask_array):
+    '''
+    This function maps the Corine2018 values of a mask
+    to a set indexes, from 1 to 45, that corresponds to the
+    Corine2018 classes.
+    '''
+    size = mask_array.shape
+    unif_mask = np.zeros(size)
+    unique_values = np.unique(mask_array) 
+    for u in unique_values:
+        t_mask = (mask_array == u)
+        unif_mask[t_mask] = corine2018_class_bucket(u)
+    return unif_mask
 ## ---------------------------------------------- 6) Statistics
 def corine2018_class_code(index):
     '''
