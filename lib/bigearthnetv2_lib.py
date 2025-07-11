@@ -530,10 +530,27 @@ def collect_statistics(root_path, start_tile_index, end_tile_index, print_msg=Fa
 
 def save_statistics(bucket_array, file_path):
     '''
-    Saves the bucket array in a txt file.
+    Saves the bucket array in a txt file,
+    one value per line.
     '''
     data = bucket_array.tolist()
     with open(file_path, 'w') as f:
         for element in data:
             f.write(f'{element}\n')
+
+def read_statistics(file_path):
+    '''
+    This function reads the statistics file: a txt
+    file with one value per line. Each value represents
+    the number of images that contains pixels of a class
+    in the Corine2018 classification code.
+    '''
+    with open(file_path, 'r') as f:
+        lines = f.read().splitlines()
+        bucket_array = np.zeros(len(lines))
+        index = 0
+        for line in lines:
+            bucket_array[index] = line.strip()
+            index += 1
+        return bucket_array
 ## ---------------------------------------------- End of functions definition -----------------------------------------------
