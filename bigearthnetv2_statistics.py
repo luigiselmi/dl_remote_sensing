@@ -23,8 +23,12 @@ MASKS_DATA_DIR = pathlib.Path(BIGEARTHNETv2_DIR + '/Reference_Maps')
 start_tile_index = 0 
 end_tile_index = 5
 
-buckets = collect_statistics(MASKS_DATA_DIR, start_tile_index, end_tile_index, print_msg=True)
+start = time.time()
+corine2018_buckets = collect_statistics(MASKS_DATA_DIR, start_tile_index, end_tile_index, print_msg=True)
+end = time.time()
+elapsed_time = end - start
+print('Elapsed time (seconds): {:.2f}'.format(elapsed_time))
 
-save_statistics(buckets, 'data/statistics.txt')
+save_statistics(corine2018_buckets, 'data/statistics.txt')
 
 print('Done !')
