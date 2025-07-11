@@ -26,3 +26,5 @@ end_tile_index = 5
 buckets = collect_statistics(MASKS_DATA_DIR, start_tile_index, end_tile_index, print_msg=True)
 
 save_statistics(buckets, 'data/statistics.txt')
+
+print('Done !')
