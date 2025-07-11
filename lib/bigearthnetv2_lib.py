@@ -448,11 +448,11 @@ def corine2018_labels():
 def corine2018_class_code(index):
     '''
     This function returns the Corine2018 Land Cover classification 
-    code at the 3rd level given its index (from 1 to 44).
+    code at the 3rd level given its index (from 1 to 45).
     '''
     SUCCESS = 0
     FAILURE = 1
-    if (index < 1 or index > 44):
+    if (index < 1 or index > 45):
         print('The index must be a number between 1 and 44')
         return FAILURE
     
@@ -461,7 +461,7 @@ def corine2018_class_code(index):
         211, 212, 213, 221, 222, 223, 231, 241, 242, 243, 244,
         311, 312, 313, 321, 322, 323, 324, 331, 332, 333, 334, 335,
         411, 412, 421, 422, 423,
-        511, 512, 521, 522, 523]
+        511, 512, 521, 522, 523, 999]
     
     return corine2018_class_code[index - 1]
     
@@ -476,10 +476,10 @@ def corine2018_class_bucket(clc_code):
         211, 212, 213, 221, 222, 223, 231, 241, 242, 243, 244,
         311, 312, 313, 321, 322, 323, 324, 331, 332, 333, 334, 335,
         411, 412, 421, 422, 423,
-        511, 512, 521, 522, 523]
+        511, 512, 521, 522, 523, 999]
     
     clc_code_index = corine2018_class_code.index(clc_code)
-    corine2018_class_buckets = np.arange(1,45)
+    corine2018_class_buckets = np.arange(1,46)
     bucket = corine2018_class_buckets[clc_code_index]
     return bucket
 
@@ -491,7 +491,7 @@ def collect_statistics(root_path, start_tile_index, end_tile_index, print_msg=Fa
     the 44 buckets with the number of masks for each class.
     '''
     num_mask_files = 0
-    corine2018_buckets = np.zeros(44)
+    corine2018_buckets = np.zeros(45)
     tiles_paths = [pathlib.Path(x) for x in root_path.iterdir() if x.is_dir()]
     if (print_msg):
         print('Number of tiles: ', len(tiles_paths))
