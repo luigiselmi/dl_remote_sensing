@@ -95,6 +95,7 @@ The notebooks are used in the development phase. They are tested on a small subs
 * [BigEarthNet dataset statistics](benv2_statistics.ipynb)
 * [PNG files visual check](png_files_visual_check.ipynb)
 * [BigEarthNet model](bigearthnet_model.ipynb)
+* [BigEarthNet model assessment using a small sample of png (image, mask) pairs](bigearthnet_model_validation.ipynb)
 
 ## Scripts
 The scripts are based on the notebooks and are used to perform a task using the complete BigEarthNet dataset. They use
