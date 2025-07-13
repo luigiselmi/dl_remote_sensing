@@ -91,11 +91,11 @@ Several metrics are used to evaluate the performance of a model on a classificat
 ## Notebooks
 The notebooks are used in the development phase. They are tested on a small subset of the BigEarthNet dataset. 
 
-* [BigEarthNet data preparation](bigearthnetv2_data_preparation.ipynb)
-* [BigEarthNet dataset statistics](benv2_statistics.ipynb)
-* [PNG files visual check](png_files_visual_check.ipynb)
-* [BigEarthNet model](bigearthnet_model.ipynb)
-* [BigEarthNet model assessment using a small sample of png (image, mask) pairs](bigearthnet_model_validation.ipynb)
+1. [BigEarthNet data preparation](bigearthnetv2_data_preparation.ipynb)
+2. [BigEarthNet dataset statistics](benv2_statistics.ipynb)
+3. [PNG files visual check](png_files_visual_check.ipynb)
+4. [BigEarthNet model](bigearthnet_model.ipynb)
+5. [BigEarthNet model assessment using a small sample of png (image, mask) pairs](bigearthnet_model_validation.ipynb)
 
 ## Scripts
 The scripts are based on the notebooks and are used to perform a task using the complete BigEarthNet dataset. They use
