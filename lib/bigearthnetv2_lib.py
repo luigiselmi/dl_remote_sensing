@@ -17,9 +17,14 @@ import matplotlib
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcol
 from matplotlib import cm, ticker
-from matplotlib.colors import ListedColormap
+from matplotlib.colors import ListedColormap, LinearSegmentedColormap 
 import zipfile
 from zipfile import ZipFile
+import tensorflow
+from tensorflow import data as tf_data
+from tensorflow import image as tf_image
+from tensorflow import io as tf_io
+import keras
 import warnings
 warnings.filterwarnings('ignore')
 
@@ -456,7 +461,7 @@ def corine_mask(mask_array):
     Corine2018 classes.
     '''
     size = mask_array.shape
-    unif_mask = np.zeros(size)
+    unif_mask = np.zeros(size, dtype=np.int8)
     unique_values = np.unique(mask_array) 
     for u in unique_values:
         t_mask = (mask_array == u)
