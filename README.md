@@ -105,7 +105,7 @@ among the Python packages a library where many of the functions developed in the
 * [BigEarthNet dataset statistics](bigearthnetv2_statistics.py)
   
 ## Library
-The library is a script where functions developed in the notebooks have been moved. 
+The library is a script where functions developed in the notebooks have been moved in order to use the same function for the same purpose. 
 * [BigEarthNetLib](lib/bigearthnetv2_lib.py)
   
 ### Scene classification

@@ -320,6 +320,18 @@ def count_unique_occurrence(array):
         occurrence = np.count_nonzero(array == u)
         occurrences.append(occurrence)
     return unique_values, occurrences
+
+def resize_png(file_path, png_size):
+    '''
+    Transforms a PNG file into a tensor
+    and returns a new tensor resized
+    according to the png_size, e.g. (128, 128).
+    '''
+    img = tf_io.read_file(file_path)
+    num_channnels = img.shape
+    decoded_img = tf_io.decode_png(img, channels=num_channnels)
+    resized_img = tf_image.resize(decoded_img, png_size)
+    return resized_img
     
 #-------------------------------------3) Compression ----------------------------------------------------
 
@@ -362,17 +374,35 @@ def norm_image(image_array):
     
 ## --------------------------------------------- 5) Visualization ---------------------------------------
 
-def plot_examples(images_list, masks_list):
-    fig_rows = len(masks_list)
-    fig, axs = plt.subplots(nrows=fig_rows, ncols=2, figsize=(5, 3), layout='constrained')
+#def plot_examples(images_list, masks_list):
+#    fig_rows = len(masks_list)
+#    fig, axs = plt.subplots(nrows=fig_rows, ncols=2, figsize=(5, 3), layout='constrained')
+#    corine2018_color_map = ListedColormap(corine_color_map())
+#    for row in range(0, fig_rows):
+#        img = np.array(Image.open(images_list[row]))
+#        msk = np.array(Image.open(masks_list[row]))
+#        axs[row, 0].set_axis_off()
+#        axs[row, 1].set_axis_off()
+#        axs[row, 0].imshow(img, cmap=corine2018_color_map)
+#        axs[row, 1].imshow(msk, cmap=corine2018_color_map)
+
+def plot_examples(images_list, masks_list, start=0, end=10):
+    row_start = start
+    row_end = end
+    num_rows = row_end - row_start
+    fig, axs = plt.subplots(nrows=num_rows, ncols=2, figsize=(25, 25), layout='tight')
     corine2018_color_map = ListedColormap(corine_color_map())
-    for row in range(0, fig_rows):
-        img = np.array(Image.open(images_list[row]))
-        msk = np.array(Image.open(masks_list[row]))
-        axs[row, 0].set_axis_off()
-        axs[row, 1].set_axis_off()
-        axs[row, 0].imshow(img, cmap=corine2018_color_map)
-        axs[row, 1].imshow(msk, cmap=corine2018_color_map)
+    for i in range(num_rows):
+        img = Image.open(images_list[row_start + i])
+        img_name = images_list[row_start + i][7:-4]
+        msk = Image.open(masks_list[row_start + i])
+        msk_name = masks_list[row_start + i][6:-9]
+        axs[i, 0].set_axis_off()
+        axs[i, 1].set_axis_off()
+        axs[i, 0].imshow(img)
+        axs[i, 0].set_title(img_name)
+        axs[i, 1].imshow(msk, cmap=corine2018_color_map)
+        axs[i, 1].set_title(msk_name)
 
 def corine_color_map():
     '''
