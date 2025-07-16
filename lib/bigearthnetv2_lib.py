@@ -374,29 +374,17 @@ def norm_image(image_array):
     
 ## --------------------------------------------- 5) Visualization ---------------------------------------
 
-#def plot_examples(images_list, masks_list):
-#    fig_rows = len(masks_list)
-#    fig, axs = plt.subplots(nrows=fig_rows, ncols=2, figsize=(5, 3), layout='constrained')
-#    corine2018_color_map = ListedColormap(corine_color_map())
-#    for row in range(0, fig_rows):
-#        img = np.array(Image.open(images_list[row]))
-#        msk = np.array(Image.open(masks_list[row]))
-#        axs[row, 0].set_axis_off()
-#        axs[row, 1].set_axis_off()
-#        axs[row, 0].imshow(img, cmap=corine2018_color_map)
-#        axs[row, 1].imshow(msk, cmap=corine2018_color_map)
-
 def plot_examples(images_list, masks_list, start=0, end=10):
     row_start = start
     row_end = end
     num_rows = row_end - row_start
-    fig, axs = plt.subplots(nrows=num_rows, ncols=2, figsize=(25, 25), layout='tight')
+    fig, axs = plt.subplots(nrows=num_rows, ncols=2, figsize=(10, 10), layout='tight')
     corine2018_color_map = ListedColormap(corine_color_map())
     for i in range(num_rows):
         img = Image.open(images_list[row_start + i])
-        img_name = images_list[row_start + i][7:-4]
+        img_name = pathlib.Path(images_list[row_start + i]).name[:-4]
         msk = Image.open(masks_list[row_start + i])
-        msk_name = masks_list[row_start + i][6:-9]
+        msk_name = pathlib.Path(masks_list[row_start + i]).name[:-9]
         axs[i, 0].set_axis_off()
         axs[i, 1].set_axis_off()
         axs[i, 0].imshow(img)
@@ -536,7 +524,7 @@ def corine2018_class_bucket(clc_code):
         511, 512, 521, 522, 523, 999]
     
     clc_code_index = corine2018_class_code.index(clc_code)
-    corine2018_class_buckets = np.arange(1,46)
+    corine2018_class_buckets = np.arange(1,46, dtype='uint8')
     bucket = corine2018_class_buckets[clc_code_index]
     return bucket
 
