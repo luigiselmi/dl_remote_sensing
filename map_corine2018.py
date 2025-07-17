@@ -15,7 +15,7 @@ SOURCE_DIR = sys.argv[1]
 TARGET_DIR = sys.argv[2]
 
 print('Source folder: ', SOURCE_DIR)
-print('Target folder: ', TARGET_DIR))
+print('Target folder: ', TARGET_DIR)
 
 nc_masks = mapCorine145_list(SOURCE_DIR, TARGET_DIR)
 num_target_masks = len(nc_masks)
