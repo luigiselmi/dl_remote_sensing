@@ -14,8 +14,8 @@ Source and target folder paths must end with the forward slash.
 SOURCE_DIR = sys.argv[1]
 TARGET_DIR = sys.argv[2]
 
-print('Source folder: {}'.format(SOURCE_DIR))
-print('Target folder: {}'.format(TARGET_DIR))
+print('Source folder: ', SOURCE_DIR)
+print('Target folder: ', TARGET_DIR))
 
 nc_masks = mapCorine145_list(SOURCE_DIR, TARGET_DIR)
 num_target_masks = len(nc_masks)
@@ -29,6 +29,6 @@ print('New {:d} mask files created in {}'.format(num_target_masks, TARGET_DIR))
 
 parent_folder = str(pathlib.Path(TARGET_DIR).parent)
 zip_file_name = parent_folder + '/' + 'nc_masks.zip'
-print('Zip file: {}', zip_file_name)
+print('Zip file: ', zip_file_name)
  
 zip_pngs(nc_masks, zip_file_name)
