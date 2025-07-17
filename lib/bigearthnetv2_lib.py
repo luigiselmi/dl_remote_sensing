@@ -332,7 +332,58 @@ def resize_png(file_path, png_size):
     decoded_img = tf_io.decode_png(img, channels=num_channnels)
     resized_img = tf_image.resize(decoded_img, png_size)
     return resized_img
+
+def mapCorine145(source_path, target_path):
+    '''
+    This function creates a new target mask PNG file from a source mask file
+    mapping the Corine2018 color codes of the source to their index in [1, 45]
+    If the target file already exists it doesn't create a new one and 
+    will return 1, otherwise it will create a new raster and will return 0. 
+    The dtype of the target file is uint8.
+    '''
+    #print('createMaskPNG source_path=', source_path)
+    SUCCESS = 0
+    FAILURE = 1
+    if (os.path.isfile(target_path)):
+        return FAILURE 
+        
+    with rasterio.open(source_path) as source_dataset:
+        width = source_dataset.width
+        height = source_dataset.height
+        band = source_dataset.read(1)
+
+    band = corine_mask(band)
     
+    with rasterio.open(target_path,
+                    mode='w',
+                    driver='PNG',
+                    height=height,
+                    width=width,
+                    count=1,
+                    dtype='uint8') as target_dataset:
+        band_index = 1
+        target_dataset.write(band, band_index)
+
+    return SUCCESS
+
+def mapCorine145_list(source_folder, target_folder):
+    '''
+    This function creates new mask PNG files in the target folder from 
+    source mask files in the source folder by mapping the Corine2018 color 
+    codes of the source files to their index in [1, 45]
+    '''
+    target_masks = []
+    source_masks_folder_path = pathlib.Path(source_folder)
+    source_masks = [str(file) for file in source_masks_folder_path.iterdir()]
+    num_source_masks = len(source_masks)
+    for source_mask in source_masks:
+        #print('Source mask: {}', source_mask)
+        target_mask_name = pathlib.Path(source_mask).name[:-4] + '_nc.png'    
+        target_mask = target_folder + target_mask_name
+        #print('Target mask: {}', target_mask)
+        mapCorine145(source_mask, target_mask)
+        target_masks.append(target_mask)
+    return target_masks
 #-------------------------------------3) Compression ----------------------------------------------------
 
 def zip_pngs(pngs_list, target_zip_file):
