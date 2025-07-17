@@ -20,11 +20,6 @@ from matplotlib import cm, ticker
 from matplotlib.colors import ListedColormap, LinearSegmentedColormap 
 import zipfile
 from zipfile import ZipFile
-import tensorflow
-from tensorflow import data as tf_data
-from tensorflow import image as tf_image
-from tensorflow import io as tf_io
-import keras
 import warnings
 warnings.filterwarnings('ignore')
 
