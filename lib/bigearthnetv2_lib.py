@@ -328,12 +328,12 @@ def resize_png(file_path, png_size):
     resized_img = tf_image.resize(decoded_img, png_size)
     return resized_img
 
-def mapCorine145(source_path, target_path):
+def mapCorineL3(source_path, target_path):
     '''
     This function creates a new target mask PNG file from a source mask file
-    mapping the Corine2018 color codes of the source to their index in [1, 45]
-    If the target file already exists it doesn't create a new one and 
-    will return 1, otherwise it will create a new raster and will return 0. 
+    mapping the Corine2018 Level 3 color codes of the source to their index 
+    in [1, 45]. If the target file already exists it doesn't create a new one 
+    and will return 1, otherwise it will create a new raster and will return 0. 
     The dtype of the target file is uint8.
     '''
     #print('createMaskPNG source_path=', source_path)
@@ -361,7 +361,7 @@ def mapCorine145(source_path, target_path):
 
     return SUCCESS
 
-def mapCorine145_list(source_folder, target_folder):
+def mapCorineL3_list(source_folder, target_folder):
     '''
     This function creates new mask PNG files in the target folder from 
     source mask files in the source folder by mapping the Corine2018 color 
@@ -421,11 +421,14 @@ def norm_image(image_array):
 ## --------------------------------------------- 5) Visualization ---------------------------------------
 
 def plot_examples(images_list, masks_list, start=0, end=10):
+    '''
+    Plots images and masks in two columns.
+    '''
     row_start = start
     row_end = end
     num_rows = row_end - row_start
     fig, axs = plt.subplots(nrows=num_rows, ncols=2, figsize=(10, 10), layout='tight')
-    corine2018_color_map = ListedColormap(corine_color_map())
+    corine2018_l3_color_map = ListedColormap(corine_l3_color_map())
     for i in range(num_rows):
         img = Image.open(images_list[row_start + i])
         img_name = pathlib.Path(images_list[row_start + i]).name[:-4]
@@ -435,10 +438,10 @@ def plot_examples(images_list, masks_list, start=0, end=10):
         axs[i, 1].set_axis_off()
         axs[i, 0].imshow(img)
         axs[i, 0].set_title(img_name)
-        axs[i, 1].imshow(msk, cmap=corine2018_color_map)
+        axs[i, 1].imshow(msk, cmap=corine2018_l3_color_map)
         axs[i, 1].set_title(msk_name)
 
-def corine_color_map():
+def corine_l3_color_map():
     '''
     This function returns the 44 Corine2018 RGB
     color codes in hexadecimal format used for 
@@ -464,7 +467,7 @@ def corine_color_map():
     
     return hex_color_map
 
-def corine2018_labels():
+def corine2018_l3_labels():
     '''
     This function simply returns the list of the 44 
     Corine2018 land cover labels plus one additional class,
@@ -518,7 +521,7 @@ def corine2018_labels():
         'Unclassified']
     return corine2018_level3_labels
 
-def corine_mask(mask_array):
+def corine_l3_mask(mask_array):
     '''
     This function maps the Corine2018 values of a mask
     to a set indexes, from 1 to 45, that corresponds to the
@@ -529,10 +532,10 @@ def corine_mask(mask_array):
     unique_values = np.unique(mask_array) 
     for u in unique_values:
         t_mask = (mask_array == u)
-        unif_mask[t_mask] = corine2018_class_bucket(u)
+        unif_mask[t_mask] = corine2018_l3_class_bucket(u)
     return unif_mask
 ## ---------------------------------------------- 6) Statistics
-def corine2018_class_code(index):
+def corine2018_l3_class_code(index):
     '''
     This function returns the Corine2018 Land Cover classification 
     code at the 3rd level given its index (from 1 to 45). The last code
@@ -554,7 +557,7 @@ def corine2018_class_code(index):
     
     return corine2018_class_code[index - 1]
     
-def corine2018_class_bucket(clc_code):
+def corine2018_l3_class_bucket(clc_code):
     '''
     This function return the index of a bucket from 1 to 45
     to be used in place of a Corine2018 class code. The last code
