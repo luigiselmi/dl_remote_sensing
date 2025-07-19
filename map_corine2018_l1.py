@@ -16,6 +16,7 @@ ZIP_DIR = sys.argv[3]
 
 print('Source folder: ', SOURCE_DIR)
 print('Target folder: ', TARGET_DIR)
+print('Zip folder: ', ZIP_DIR)
 
 l1_masks = mapCorineL1_list(SOURCE_DIR, TARGET_DIR)
 num_target_masks = len(l1_masks)
