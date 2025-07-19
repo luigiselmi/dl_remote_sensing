@@ -347,7 +347,7 @@ def mapCorineL3(source_path, target_path):
         height = source_dataset.height
         band = source_dataset.read(1)
 
-    band = corine_mask(band)
+    band = corine_l3_mask(band)
     
     with rasterio.open(target_path,
                     mode='w',
@@ -364,8 +364,8 @@ def mapCorineL3(source_path, target_path):
 def mapCorineL3_list(source_folder, target_folder):
     '''
     This function creates new mask PNG files in the target folder from 
-    source mask files in the source folder by mapping the Corine2018 color 
-    codes of the source files to their index in [1, 45]
+    source mask files in the source folder by mapping the Corine2018 
+    level 3 color codes of the source files to their index in [1, 45]
     '''
     target_masks = []
     source_masks_folder_path = pathlib.Path(source_folder)
@@ -376,9 +376,126 @@ def mapCorineL3_list(source_folder, target_folder):
         target_mask_name = pathlib.Path(source_mask).name[:-4] + '_nc.png'    
         target_mask = target_folder + target_mask_name
         #print('Target mask: {}', target_mask)
-        mapCorine145(source_mask, target_mask)
+        mapCorineL3(source_mask, target_mask)
         target_masks.append(target_mask)
     return target_masks
+
+def mapCorineL1(source_path, target_path):
+    '''
+    This function creates a new target mask PNG file from a source mask file
+    mapping the Corine2018 Level 3 color codes of the source to level 1. If 
+    the target file already exists it doesn't create a new one and will return 
+    1, otherwise it will create a new raster and will return 0. The dtype of 
+    the target file is uint8.
+    '''
+    #print('createMaskPNG source_path=', source_path)
+    SUCCESS = 0
+    FAILURE = 1
+    if (os.path.isfile(target_path)):
+        return FAILURE 
+        
+    with rasterio.open(source_path) as source_dataset:
+        width = source_dataset.width
+        height = source_dataset.height
+        band = source_dataset.read(1)
+
+    band = corine_l1_mask(band)
+    
+    with rasterio.open(target_path,
+                    mode='w',
+                    driver='PNG',
+                    height=height,
+                    width=width,
+                    count=1,
+                    dtype='uint8') as target_dataset:
+        band_index = 1
+        target_dataset.write(band, band_index)
+
+    return SUCCESS
+
+def mapCorineL1_list(source_folder, target_folder):
+    '''
+    This function creates new mask PNG files in the target folder from 
+    source mask files in the source folder by mapping the Corine2018 
+    level 3 color codes of the source files to level 1
+    '''
+    target_masks = []
+    source_masks_folder_path = pathlib.Path(source_folder)
+    source_masks = [str(file) for file in source_masks_folder_path.iterdir()]
+    num_source_masks = len(source_masks)
+    #print('Num. source masks: ', num_source_masks)
+    for source_mask in source_masks:
+        #print('Source mask: ', source_mask)
+        target_mask_name = pathlib.Path(source_mask).name[:-8] + 'l1_mask.png'    
+        target_mask = target_folder + target_mask_name
+        #print('Target mask: ', target_mask)
+        mapCorineL1(source_mask, target_mask)
+        target_masks.append(target_mask)
+    return target_masks
+
+
+def corine2018_l1_class_bucket(clc_code):
+    '''
+    This function returns the index of a bucket from 1 to 6
+    to be used in place of a Corine2018 Level 3 class code. 
+    The last code 999 does not belong to Corine2018 and is 
+    used for pixels that were not classified. This function 
+    works as the inverse of corine2018_l1_class_code(). If 
+    the clc_code is not valid the function returns no values.
+    '''
+    corine2018_class_code = [
+        [111, 112, 121, 122, 123, 124, 131, 132, 133, 141, 142],
+        [211, 212, 213, 221, 222, 223, 231, 241, 242, 243, 244],
+        [311, 312, 313, 321, 322, 323, 324, 331, 332, 333, 334, 335],
+        [411, 412, 421, 422, 423],
+        [511, 512, 521, 522, 523], 
+        [999]]
+    
+    corine2018_l1_class_buckets = np.arange(1, 7, dtype='uint8')
+
+    for c in range(1, 7):
+        if (clc_code in corine2018_class_code[c - 1]):
+            return c
+
+def corine2018_l1_labels():
+    '''
+    This function simply returns the list of the 5+1 
+    Corine2018 level 1 land cover labels plus one additional class,
+    'Unclassified', used for pixels that were not classified.
+    '''
+    corine2018_level1_labels = [
+        'Artificial surfaces',
+        'Agricultural areas',
+        'Forest and semi-natural areas',
+        'Wetlands',
+        'Water bodies',
+        'Unclassified']
+    
+    return corine2018_level1_labels
+
+def corine_l1_color_map():
+    '''
+    This function returns the 6 Corine2018 Level 1
+    RGB color codes in hexadecimal format used for 
+    the visualization of the land cover, plus an
+    additional 255-255-255 (white) code to annotate
+    pixels that are not classified.
+    '''
+
+    corine2018_l1_rgb_color_codes = [
+        '230-000-077', '255-255-168', '128-255-000',
+        '166-166-255', '000-204-242', '255-255-255']
+
+    hex_color_map = []
+    for color in corine2018_l1_rgb_color_codes:
+        r = int(color[:3])
+        g = int(color[4:7])
+        b = int(color[8:11])
+        hex = '#{:02x}{:02x}{:02x}'.format(r, g, b)
+        hex_color_map.append(hex)
+    
+    return hex_color_map
+
 #-------------------------------------3) Compression ----------------------------------------------------
 
 def zip_pngs(pngs_list, target_zip_file):
@@ -535,6 +652,20 @@ def corine_l3_mask(mask_array):
         t_mask = (mask_array == u)
         unif_mask[t_mask] = corine2018_l3_class_bucket(u)
     return unif_mask
+
+def corine_l1_mask(mask_array):
+    '''
+    This function maps the Corine2018 L3 values of a mask
+    to Level 1 (5 + 1 classes and color codes).
+    '''
+    size = mask_array.shape
+    unif_mask = np.zeros(size, dtype=np.int8)
+    unique_values = np.unique(mask_array) 
+    for u in unique_values:
+        t_mask = (mask_array == u)
+        unif_mask[t_mask] = corine2018_l1_class_bucket(u)
+    return unif_mask
+
 
 ## ---------------------------------------------- 6) Statistics
 def corine2018_l3_class_code(index):
