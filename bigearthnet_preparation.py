@@ -38,18 +38,22 @@ num_tiles = len(tiles_list)
 ## Creates the PNG files of the patches within the tiles. The PNG
 ## images are saved in the same directory of the patch. The function
 ## returns the list of the PNG files created
+print('Creating PNG images')
 pngs_list = createPNGs(tiles_list)
 
 ## Creates the PNG files of the masks. The PNG masks are saved in
 ## the same directory of the patch. The function
 ## returns the list of the PNG files created
+print('Creating PNG masks')
 masks_png_list = createMaskPNGs(tiles_mask_list)
 
 ## The PNG images are zipped to be copied to S3
+print('Creating images zip file')
 rgb_zip_file = 'data/bigearthnet_pngs.zip'
 zip_pngs(pngs_list, rgb_zip_file)
 
 ## The PNG masks are zipped to be copied to S3
+print('Creating masks zip file')
 masks_zip_file = 'data/bigearthnet_mask_pngs.zip'
 zip_pngs(masks_png_list, masks_zip_file)
 
