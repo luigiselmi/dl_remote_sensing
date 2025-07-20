@@ -27,11 +27,11 @@ end_tile_index = 5
 
 ## Collect the tiles of the images
 tiles_list = list_image_files(IMAGES_DATA_DIR, start_tile_index, end_tile_index)
-num_rgb_bands = print_images_list(tiles_list)
+#num_rgb_bands = print_images_list(tiles_list)
 
 ## collect the tiles of the masks
 tiles_mask_list = list_mask_files(MASKS_DATA_DIR, start_tile_index, end_tile_index)
-num_masks = print_masks_list(tiles_mask_list)
+#num_masks = print_masks_list(tiles_mask_list)
 
 num_tiles = len(tiles_list)
 
