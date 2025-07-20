@@ -1,6 +1,10 @@
 from lib.bigearthnetv2_lib import *
 
 '''
+This script can be used to transform the TIFF files of the three RGB 
+bands of a patch into a PNG file with three bands. The script collects the 
+list of tiles and then processes the patches within each tile. The start tile
+and the end tile can be set in the script.
 The script can be executed using the command line from the root
 folder of the dl_remote_sensing project repository with the command
 
