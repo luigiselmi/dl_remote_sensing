@@ -261,7 +261,7 @@ def createPNGs(tiles_list):
             patch_dir = bands_list[0].parent
             png_file_name = str(patch_dir) +  '/' + create_png_file_name(tile, patch, date)
             if (createPNG(bands_list, png_file_name) == 1):
-                print('The image PNG file already exists.')
+                #print('The image PNG file already exists.')
                 png_patches.append(png_file_name)
             else:
                 png_patches.append(png_file_name)
@@ -291,7 +291,7 @@ def createMaskPNGs(tiles_list):
             tiff_path_name = str(patch_path[0])
             #print('Tiff patch path name', tiff_path_name)
             if (createMaskPNG(tiff_path_name, png_file_name) == 1):
-                print('The mask PNG file already exists.')
+                #print('The mask PNG file already exists.')
                 png_patches.append(png_file_name)
             else:
                 png_patches.append(png_file_name)
