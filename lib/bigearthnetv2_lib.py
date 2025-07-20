@@ -252,6 +252,7 @@ def createPNGs(tiles_list):
     only adds its path to the list.
     '''
     png_patches = []
+    num_tiles = 0
     for patches_list in tiles_list:
         for bands_list in patches_list: 
             band_name = bands_list[0].name
@@ -264,6 +265,8 @@ def createPNGs(tiles_list):
                 png_patches.append(png_file_name)
             else:
                 png_patches.append(png_file_name)
+        num_tiles += 1
+        print('Tile {:d} completed'.format(num_tiles))
     return png_patches
 
 def createMaskPNGs(tiles_list):
@@ -274,6 +277,7 @@ def createMaskPNGs(tiles_list):
     only adds its path to the list.
     '''
     png_patches = []
+    num_tiles = 0
     for patches_list in tiles_list:
         for patch_path in patches_list: 
             #print('Patch path: {}'.format(patch_path))
@@ -291,6 +295,8 @@ def createMaskPNGs(tiles_list):
                 png_patches.append(png_file_name)
             else:
                 png_patches.append(png_file_name)
+        num_tiles += 1
+        print('Tile {:d} completed'.format(num_tiles))
     return png_patches
 
 def delete_files(file_list):
