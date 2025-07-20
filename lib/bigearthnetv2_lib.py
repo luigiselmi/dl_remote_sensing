@@ -266,7 +266,7 @@ def createPNGs(tiles_list):
             else:
                 png_patches.append(png_file_name)
         num_tiles += 1
-        print('Tile {:d} completed'.format(num_tiles))
+        print('Tile image {:d} completed'.format(num_tiles))
     return png_patches
 
 def createMaskPNGs(tiles_list):
@@ -296,7 +296,7 @@ def createMaskPNGs(tiles_list):
             else:
                 png_patches.append(png_file_name)
         num_tiles += 1
-        print('Tile {:d} completed'.format(num_tiles))
+        print('Tile mask {:d} completed'.format(num_tiles))
     return png_patches
 
 def delete_files(file_list):
