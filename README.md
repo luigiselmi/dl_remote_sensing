@@ -89,7 +89,7 @@ Several metrics are used to evaluate the performance of a model on a classificat
 * Boundary F1-measure (BF)
 
 ## Notebooks
-The notebooks are used in the development phase. They are tested on a small subset of the BigEarthNet dataset. See the [experiments](experiments.md) page for more details.
+The notebooks are used in the development phase. They are tested on a small subset of the BigEarthNet dataset. See the [experiments](experiments.md) page for more details about the experiments and the [Amazon WS](amazon_ws.md) page for the technical details about the VM used and their settings.
 
 1. [BigEarthNet data preparation](bigearthnetv2_data_preparation.ipynb)
 2. [BigEarthNet dataset statistics](benv2_statistics.ipynb)
