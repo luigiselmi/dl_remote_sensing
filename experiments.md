@@ -18,10 +18,10 @@ The worflow to prepare the data for the model training is
 
 All the subsets and the transformed masks are stored in S3 buckets as zip files. The dataset have the naming convention
 
-* Subset PNG images: bigearthnet_exp<number>_img.zip
-* Subset PNG masks: bigearthnet_exp<number>_mask.zip
-* Subset PNG masks Corine level 3 [1, 45]: bigearthnet_exp<number>_mask_l3.zip
-* Subset PNG masks Corine level 1 [1, 6]: bigearthnet_exp<number>_mask_l1.zip
+* Subset PNG images: bigearthnet_exp&lt;number&gt;_img.zip
+* Subset PNG masks: bigearthnet_exp&lt;number&gt;_mask.zip
+* Subset PNG masks Corine level 3 [1, 45]: bigearthnet_exp&lt;number&gt;_mask_l3.zip
+* Subset PNG masks Corine level 1 [1, 6]: bigearthnet_exp&lt;number&gt;_mask_l1.zip
 
 We may use the level 1 or level 3 classes for the pixel value of the masks. We have developed two script to perform such transformations. In the last case we always map the original values to the corresponding index value from 1 to 45, where 45 is used for 999.
 
