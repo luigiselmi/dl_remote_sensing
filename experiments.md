@@ -36,6 +36,6 @@ We use different subsets of the BigEarthNet dataset to test the model performanc
 | Experiment  | Subset Size | Corine2018 Level | Learning rate | Batch size   | Epochs | Validation Accuracy |
 | ----------- | ------------|------------------|---------------|--------------|--------|---------------------|
 | 1 | 75465 | L1 | 10^-4 | 32 | 50 | 0.7437 |
-| 2 | 115672 | L1 | 10^-4 | 32 | 50 |       |
+| 2 | 115672 | L1 | 10^-4 | 32 | 50 |  0.8268     |
 
 
