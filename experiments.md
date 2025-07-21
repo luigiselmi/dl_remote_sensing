@@ -23,10 +23,15 @@ All the subsets and the transformed masks are stored in S3 buckets as zip files.
 * Subset PNG masks Corine level 3 [1, 45]: bigearthnet_exp&lt;number&gt;_mask_l3.zip
 * Subset PNG masks Corine level 1 [1, 6]: bigearthnet_exp&lt;number&gt;_mask_l1.zip
 
-We may use the level 1 or level 3 classes for the pixel value of the masks. We have developed two script to perform such transformations. In the last case we always map the original values to the corresponding index value from 1 to 45, where 45 is used for 999.
+We may use the level 1 or level 3 classes for the pixel value of the masks. We have developed two script to perform such transformations: 
+
+* [corine2018_l1](map_corine2018_l1.py)
+* [corine2018_l3](map_corine2018_l3.py)
+
+In the last case we always map the original values to the corresponding index value from 1 to 45, where 45 is used for 999.
 
 ## Subsets and model hyperparameters
-We use different subsets of the BigEarthNet dataset to test the model performance using different hyperparameters such as learning rate,  batch size and number of epochs. The validation accuracy is the best among all the epochs. the subset is split in 70% training, 20% validation, 10% test. 
+We use different subsets of the BigEarthNet dataset to test the model performance using different hyperparameters such as learning rate,  batch size and number of epochs. The validation accuracy is the best among all the epochs. The subset is split in 70% training, 20% validation, 10% test. 
 
 | Experiment  | Subset Size | Corine2018 Level | Learning rate | Batch size   | Epochs | Validation Accuracy |
 | ----------- | ------------|------------------|---------------|--------------|--------|---------------------|
