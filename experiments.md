@@ -33,9 +33,12 @@ In the last case we always map the original values to the corresponding index va
 ## Subsets and model hyperparameters
 We use different subsets of the BigEarthNet dataset to test the model performance using different hyperparameters such as learning rate,  batch size and number of epochs. The validation accuracy is the best among all the epochs. The subset is split in 70% training, 20% validation, 10% test. 
 
-| Experiment  | Subset Size | Corine2018 Level | Learning rate | Batch size   | Epochs | Validation Accuracy |
-| ----------- | ------------|------------------|---------------|--------------|--------|---------------------|
-| 1 | 75465 | L1 | 10^-4 | 32 | 50 | 0.7437 |
-| 2 | 115672 | L1 | 10^-4 | 32 | 50 |  0.8268     |
+| Experiment  | Subset Size | Corine2018 Level | Learning rate | Data Augmentation | Batch size   | Epochs | Validation Accuracy |
+| ----------- | ------------|------------------|---------------|-------------------|--------------|--------|---------------------|
+| 1 | 75465 | L1 | 10^-4 | No | 32 | 50 | 0.7437 |
+| 2 | 115672 | L1 | 10^-4 | No | 32 | 50 | 0.8268 |
+| 3 | 115672 | L1 | 10^-4 | Yes | 32 | 50 | 0.8071 |
 
+## Execution environment
+The environment used for training is Google Colab with a T4 GPU.
 
