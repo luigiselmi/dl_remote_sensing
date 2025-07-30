@@ -39,6 +39,11 @@ We use different subsets of the BigEarthNet dataset to test the model performanc
 | 2 | 115672 | L1 | 10^-4 | No | 32 | 50 | 0.8268 |
 | 3 | 115672 | L1 | 10^-4 | Yes | 32 | 50 | 0.8071 |
 
+| Notebook | Model | Date | Exp. number | GPU type | Optimizer | Batch size | Num. epochs | Time per epoch | Augmentation (% data size increase)| Best valid data loss | Best accuracy | RAM (GB) | RAM GPU |  
+|:--------|:--------|:------|:---------|:---------|:---------|:---------|:---------|:---------|:---------|:---------|:---------|:---------|:---------|
+| Artificial surfaces | 1 | 230-000-077|  |  |  |  |  |  |  |  |  |  |  |  |  |  |   
+
+
 ## Execution environment
 The environment used for training is Google Colab with a T4 GPU.
 

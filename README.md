@@ -116,6 +116,11 @@ The library is a script where functions developed in the notebooks have been mov
 * [Rooftop segmentation](https://github.com/luigiselmi/dl_tensorflow/blob/main/epfl_building_footprints.ipynb)
 * [Xception based rooftop segmentation model](epfl_building_footprints_xception.ipynb)
 
+## Python packages for remote sensing
+* [pyroSAR](https://github.com/johntruckenbrodt/pyroSAR), a Python Framework for Large-Scale SAR Satellite Data Processing
+* [xarray-sentinel](https://github.com/bopen/xarray-sentinel), a Python interface to all data and several metadata elements of the ESA Sentinel-1 products
+* [SarPy](https://github.com/ngageoint/sarpy), a basic Python library to read, write, and do simple processing of complex SAR data
+  
 ## References
 * [Campbell - Introduction to Remote Sensing, 5th Edtion](https://www.amazon.com/Introduction-Remote-Sensing-Fifth-Campbell/dp/160918176X/)
 * [Lillesand - Remote Sensing and Image Interpretation, 7th Edition](https://www.amazon.com/Remote-Sensing-Interpretation-Thomas-Lillesand/dp/111834328X/)
